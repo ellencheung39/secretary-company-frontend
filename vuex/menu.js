@@ -4,93 +4,57 @@ import filter from "lodash/filter";
 export default {
   namespaced: true,
   state: () => ({
-    cookie_max_age: 60 * 60 * 24 * 365 * 10,
-    menu: {},
+    menus: [],
     selected_menu: {},
-    show_side_menu: false,
-    show_search_bar: false,
   }),
   mutations: {
     RESET_TEMPORARY_VARIABLES(state, payload) {
       state.temp = {};
     },
-    SET_MENU(state, payload) {
-      if (!payload) return;
-  
-      state.menu = Object.freeze(payload);
-      if (state.menu.m_MENU.length > 0) {
-        state.selected_menu = Object.freeze(state.menu.m_MENU[0]);
-      }
-    },
     SET_MENUS(state, payload) {
       if (!payload) return;
-      if (!payload.menu) return;
-  
-      state.menu = Object.freeze(payload.menu);
-      if (!!state.menu && state.menu.m_MENU.length > 0) {
-        state.selected_menu = Object.freeze(state.menu.m_MENU[0]);
-      }
+      state.menus = Object.freeze(payload);
     },
     SET_SELECTED_MENU(state, payload) {
       state.selected_menu = Object.freeze(payload);
-    },
-    SET_SHOW_SIDE_MENU(state, payload) {
-      state.show_side_menu = payload;
-    },
-    SET_SHOW_SEARCH_BAR(state, payload) {
-      state.show_search_bar = payload;
-    },
+    }
   },
   actions: {
-    clearSelectedMenu({ commit }) {
-      commit('SET_SELECTED_MENU', {});
+    getDefaultMenus({ commit }) {
+      commit('SET_MENUS', [
+        {
+          menu_id: "1_1", menu_type_id: 1, icon: ['fas', 'th-large'], menu_name: '秘書公司列表', url: '/companySecretary',
+          sub_menus: [
+            { menu_id: "1_2", menu_type_id: 1, icon: ['fas', 'file-alt'], menu_name: '新增/修改秘書公司', url: '/companySecretary/edit' },
+            { menu_id: "1_3", menu_type_id: 1, icon: ['fas', 'file-alt'], menu_name: '移除秘書公司', url: '/companySecretary/delete' }
+          ]
+        },
+        { menu_id: "2_1", menu_type_id: 1, icon: ['fas', 'folder'], menu_name: '客戶列表', url: '/client' },
+        { menu_id: "3_1", menu_type_id: 1, icon: ['fas', 'folder'], menu_name: '公司列表', url: '/company' },
+        {
+          menu_id: "4_1", menu_type_id: 1, icon: ['fas', 'folder'], menu_name: '文件清單', url: '/document',
+          sub_menus: [
+            { menu_id: "4_2", menu_type_id: 1, icon: ['fas', 'file-alt'], menu_name: '新的提交', url: '/document/create' },
+            { menu_id: "4_3", menu_type_id: 1, icon: ['fas', 'shopping-cart'], menu_name: '待確定的提交', url: '/document/approval' }
+          ]
+        },
+        { menu_id: "5_1", menu_type_id: 1, icon: ['fas', 'user-alt'], menu_name: '設定', url: '/setting' },
+      ]);
     },
-    getMenuFromGratus({ commit, rootGetters }, payload) {
-      var baseURL = this.$config.baseURL || 'http://localhost:9000/api';
-      return this.$axios.$post(`${baseURL}/menu/gratus`, payload).then(res => {
-        if (res.response_code == 200) {
-          var result = res.response_result.Get_Menus_For_Sitemap;
-          commit('SET_MENU', result);
-        }
-      });
-    },
-    getMenuFromMongoDB({ commit, rootGetters }, payload) {
-      var baseURL = this.$config.baseURL || 'http://localhost:9000/api';
-      return this.$axios.$post(`${baseURL}/menu/mongodb`, payload).then(res => {
-        if (res.response_code == 200) {
-          var result = res.response_result;
-          commit('SET_MENUS', result);
-        }
-      });
+    async getMenus({ commit }, payload) {
+      let result = await this.$axios.$post(`${this.$config.baseURL}/menu`, payload)
+      if (result.response_code == 200) {
+        commit('SET_MENUS', result.response_result);
+      }
     },
     setSelectedMenu({ commit }, payload) {
-      commit('SET_SELECTED_MENU', payload);
-    },
-    setShowSideMenu({ commit }, payload) {
-      commit('SET_SHOW_SIDE_MENU', payload);
-    },
-    setShowSearchBar({ commit }, payload) {
-      commit('SET_SHOW_SEARCH_BAR', payload);
-    },
+      commit('SET_SELECTED_MENU', payload)
+    }
   },
   getters: {
-    menu: state => state.menu,
+    menus: state => state.menus,
     selected_menu: state => state.selected_menu,
-    show_side_menu: state => state.show_side_menu,
-    show_search_bar: state => state.show_search_bar,
-    ordered_menu: state => orderBy(filter(state.menu.m_MENU, { 'menu_type_id': 1 }), ['display_seq']),
-    ordered_menu_my_account: state => orderBy(filter(state.menu.m_MENU, { 'menu_type_id': 3 }), ['display_seq']),
-    ordered_footer_about: state => getOrderedFooterItem(state.menu.m_MENU, 12),
-    ordered_footer_information: state => getOrderedFooterItem(state.menu.m_MENU, 13),
-    ordered_footer_bottom: state => orderBy(filter(state.menu.m_MENU, { 'menu_type_id': 6 }), ['display_seq']),
+    ordered_menus: state => orderBy(filter(state.menus, { menu_type_id: 1 }), ['display_seq']),
+    ordered_menus_account: state => orderBy(filter(state.menus, { menu_type_id: 2 }), ['display_seq']),
   }
-}
-
-const getOrderedFooterItem = function(item, menu_type_id) {
-  const footerItem = filter(item, { 'menu_type_id': menu_type_id })[0];
-  if (!footerItem) return null;
-  return {
-    ...footerItem,
-    m_SUBMENU: orderBy(footerItem.m_SUBMENU, ['display_seq'])
-  };
 }

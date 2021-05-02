@@ -19,53 +19,6 @@
   }
 }
 
-.container-fluid {
-  max-width: $container-width-xs;
-  padding-left: $grid-glutter-xs;
-  padding-right: $grid-glutter-xs;
-  margin: 0 auto;
-  @include respond-to(tablet-min) {
-    max-width: $container-width-sm;
-    padding-left: $grid-glutter-sm;
-    padding-right: $grid-glutter-sm;
-  }
-  &.full-width-xs {
-    @include respond-to(phone) {
-      padding-left: 0px;
-      padding-right: 0px;
-      > .row {
-        margin: 0;
-        > [class*='col-'] {
-          padding: 0;
-        }
-      }
-    }
-  }
-}
-
-/* Gradient */
-@mixin gradient($color) {
-  @if $color == orange {
-    background-image: linear-gradient(314deg, $selective-yellow, $pumpkin 30%, $sharp-radical-red 69%, $watermelon 83%, $pale-radical-red);
-    background-image: -webkit-linear-gradient(314deg, $selective-yellow, $pumpkin 30%, $sharp-radical-red 69%, $watermelon 83%, $pale-radical-red);
-  } @else if $color == blue {
-    background-image: linear-gradient(161deg, $wild-blue-yonder, $picton-blue, $viking, $viking) !important;
-    background-image: -webkit-linear-gradient(161deg, $wild-blue-yonder, $picton-blue, $viking, $viking) !important;
-  } @else if $color == gold {
-    background-image: linear-gradient(180deg, #eed688, #c3922e) !important;
-    background-image: -webkit-linear-gradient(180deg, #eed688, #c3922e) !important;
-  } @else if $color == skin {
-    background-image: linear-gradient(120deg, #ffe2c7, #fab77c) !important;
-    background-image: -webkit-linear-gradient(120deg, #ffe2c7, #fab77c) !important;
-  } @else if $color == black {
-    background-image: linear-gradient(314deg, #535965, #d8d8d8) !important;
-    background-image: -webkit-linear-gradient(314deg, #535965, #d8d8d8) !important;
-  } @else if $color == gratus {
-    background-image: linear-gradient(80deg, #ffaf00, #f68029, #fa3846, #ff1c5c, #ff455f);
-    background-image: -webkit-linear-gradient(80deg, #ffaf00, #f68029, #fa3846, #ff1c5c, #ff455f);
-  }
-}
-
 @mixin aspect-ratio-wrapper($width, $height) {
   position: relative;
 

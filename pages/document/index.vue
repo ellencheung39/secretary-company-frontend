@@ -1,47 +1,20 @@
 <template>
   <div class="mainpage-layout">
-    <lazy-page-header :page_name="title"></lazy-page-header>
     <!-- <HomeNav></HomeNav>
     <div class="mainpage-content-panel">
       <LazyMainPage v-if="selected_tab == '/'"></LazyMainPage>
       <LazyMainPageCommunity v-if="selected_tab == '/main-community'"></LazyMainPageCommunity>
       <LazyMainPagePersonalisation v-if="selected_tab == '/main-personalisation' && !!is_guest"></LazyMainPagePersonalisation>
       <LazyMainPageMyGratus v-if="selected_tab == '/main-personalisation' && !is_guest"></LazyMainPageMyGratus>
-    </div>-->
+    </div> -->
   </div>
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
-        title: "客戶列表",
-      };
-    },
-    computed: {
-      // ...mapGetters({
-      //   user: "user/current_user",
-      //   get_current_menu: "menu/get_current_menu",
-      //   menus_account: "menu/ordered_menus_account",
-      // }),
-    },
-    created() {
-      // if (!this.$store.hasModule("menu")) {
-      //   this.$store.registerModule("menu", menu);
-      // }
-      // if (!this.$store.hasModule("user")) {
-      //   this.$store.registerModule("user", user);
-      // }
-    },
-    async fetch() {},
-    methods: {
-      // onShowSearchBar(val) {},
-      // clearSelectedAccountMenu() {},
-    },
-  };
+  export default {};
 </script>
 
-<style scoped lang="scss">
+<style>
   .container {
     margin: 0 auto;
     min-height: 100vh;

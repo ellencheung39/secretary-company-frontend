@@ -1,59 +1,72 @@
 <template>
-  <div>
-    <div>hi</div>
-
-    <Nuxt />
+  <div class="main-layout default-layout">
+    <lazy-menu class="layout-menu-panel" />
+    <div class="layout-content-panel">
+      <lazy-header class="mainpage-header-panel" />
+      <nuxt class="mainpage-content-panel" />
+      <lazy-footer class="mainpage-footer-panel" />
+    </div>
   </div>
 </template>
 
-<style>
-  html {
-    font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI",
-      Roboto, "Helvetica Neue", Arial, sans-serif;
-    font-size: 16px;
-    word-spacing: 1px;
-    -ms-text-size-adjust: 100%;
-    -webkit-text-size-adjust: 100%;
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-font-smoothing: antialiased;
-    box-sizing: border-box;
+<script>
+  import user from "~/vuex/user";
+  import { mapGetters } from "vuex";
+
+  export default {
+    data() {
+      return {};
+    },
+    computed: {
+      ...mapGetters({
+        auth: "user/token",
+      }),
+    },
+    created() {
+      if (!this.$store.hasModule("user")) {
+        this.$store.registerModule("user", user);
+      }
+    },
+    async fetch() {
+      await this.$store.dispatch("user/getDefaultCurrenctUser");
+    },
+    middleware({ store, redirect }) {
+      if (!store.state.user) {
+        // return redirect("/login");
+      }
+    },
+    methods: {},
+    mounted() {},
+  };
+</script>
+
+<style scoped lang="scss">
+  .default-layout {
+    display: grid;
+    grid-template-columns: 300px auto;
   }
 
-  *,
-  *::before,
-  *::after {
-    box-sizing: border-box;
-    margin: 0;
+  .layout-menu-panel {
+    grid-column: 1/2;
+    z-index: 110;
   }
-
-  .button--green {
-    display: inline-block;
-    border-radius: 4px;
-    border: 1px solid #3b8070;
-    color: #3b8070;
-    text-decoration: none;
-    padding: 10px 30px;
+  .layout-content-panel {
+    grid-column: 2/3;
+    display: grid;
+    grid-template-rows: 160px calc(100vh - 240px) 80px;
   }
-
-  .button--green:hover {
-    color: #fff;
-    background-color: #3b8070;
+  .mainpage-header-panel {
+    grid-row: 1/2;
+    z-index: 100;
+    
   }
-
-  .button--grey {
-    display: inline-block;
-    border-radius: 4px;
-    border: 1px solid #35495e;
-    color: #35495e;
-    text-decoration: none;
-    padding: 10px 30px;
-    margin-left: 15px;
+  .mainpage-content-panel {
+    grid-row: 2/3;
+    overflow: auto;
+    padding: 15px;
   }
-
-  .button--grey:hover {
-    color: #fff;
-    background-color: #35495e;
+  .mainpage-footer-panel {
+    grid-row: 3/4;
+    z-index: 100;
   }
 </style>
-
-

@@ -18,6 +18,8 @@ export default {
   ],
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
+    'assets/scss/default.scss',
+    '@fortawesome/fontawesome-svg-core/styles.css'
   ],
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -97,17 +99,18 @@ export default {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     '@nuxtjs/style-resources',
-    ['nuxt-i18n', {
-      defaultLocale: 'zh_hk',
-      locales: ['zh_cn', 'zh_hk', 'en_us'],
-      vueI18nLoader: true,
-      lazy: false,
-      strategy: 'no_prefix',
-    }],
-    // ['cookie-universal-nuxt', {
-    //   alias: 'cookiz',
-    //   parseJSON: false
+    '@nuxtjs/fontawesome',
+    // ['nuxt-i18n', {
+    //   defaultLocale: 'zh_hk',
+    //   locales: ['zh_cn', 'zh_hk', 'en_us'],
+    //   vueI18nLoader: true,
+    //   lazy: false,
+    //   strategy: 'no_prefix',
     // }],
+    ['cookie-universal-nuxt', {
+      alias: 'cookiz',
+      parseJSON: false
+    }],
     'nuxt-compress',
   ],
   'nuxt-compress': {
@@ -123,6 +126,8 @@ export default {
 
   plugins: [
     '@/plugins/axios',
+    '@/plugins/fontawesome.js'
+
     // { src: '~plugins/nuxt-client-init.js', ssr: false },
     // { src: '~plugins/vue-lazyload.js', ssr: false },
   ],
@@ -144,7 +149,7 @@ export default {
   styleResources: {
     scss: [
       'assets/scss/variables.scss',
-      'assets/scss/mixin.scss'
+      'assets/scss/mixin.scss',
     ]
   },
   /*

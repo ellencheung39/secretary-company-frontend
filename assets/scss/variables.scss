@@ -1,114 +1,27 @@
 //color
 
 // gray scale
-$black: #000;
-$darker-gray: #333;
-$dark-gray: #636363;
-$suva-grey: #8a8a8a;
-$gray: #999999;
-$little-light-gray: #a3a3a3;
-$silver: #bebebe;
-$light-gray: #ccc;
-$lighter-gray: #d3d5d8;
-$gainsboro-gray: #dadada;
-$whisper: #e7e5e5;
-$white-gray: #ececec;
-$pale-gray: #ededed;
-$bright-gray: #f7f5f6;
-$white-smoke: #f2f2f2;
+$black-text: #464a53;
+$gray-background: #f3f6f9;
+$gray-header: #6a707e;
+$gray-border: #d9d9d9;
+$gray-text: #898989;
+$gray-icon: #aaaaaa;
+$gray-reminder: #abafb3;
 $white: #fff;
-
-// blue
-$eastern-blue: #1889a0;
-$wild-blue-yonder: #7484d1;
-$picton-blue: #669bd3;
-$viking: #4ebed4;
-$tiffany-blue: #34bec9;
-$fountain-blue: #4db9b2;
-$picton-blue: #5baccd;
-$medium-aquamarine: #6cc5a9;
-$vista-blue: #85d9a3;
-$mabel: #c5e7e9;
-$pattens-blue: #d5e6f0;
-$lake-blue: #e1e5e6;
-
-// red
-$dark-red: #c04154;
-$venetian-red: #d0021b;
-$sharp-red: #fe0809;
-$red: #e84c52;
-$dark-radical-red: #f9374f;
-$radical-red: #ff465c;
-$cranberry: #e25a6e;
-$brink-pink: #ff6d7e;
-$eunry: #d6a39f;
-$mona-lisa: #f99c95;
-$lavender-blush: #fef5f6;
-$cinderella: #fad9ca;
-$misty-rose: #ffe7e5;
-$snow: #fff4f4;
-
-// orange
-$outrageous-orange: #ef5831;
-$tomato: #ff6543;
-$pumpkin: #f76b1c;
-$burnt-orange: #f6703a;
-$carrot-orange: #f98b24;
-$orange-peel: #ff9d00;
-$atomic-tangerine: #f8915e;
-$texas-rose: #ffa856;
-$supernova: #ffba40;
-$orange: #fdae01;
-$yellow: #ffb900;
-$amber: #ffc009;
-$dandelion: #fad961;
 
 // social
 $whatsapp: #30bf39;
 $twitter: #43bfe1;
 $facebook: #3b5998;
 
-//jtbd-color
-$jtbd-color-1: #52a4ca;
-$jtbd-color-2: #f48d8a;
-$jtbd-color-3: #ef5b7e;
-$jtbd-color-4: #3ec1ce;
-
 // uiux
-$raw-umber: #723900;
-$mandy: #e84c52;
-$purplish-red: #b5055b;
-$watermelon: #ff456c;
-// $green: #07ba00;
-$kelly-green: #4eb31c;
-$de-york: #89da90;
-$apple-green: #75bc1e;
-$selective-yellow: #ffb000;
-$pumpkin: #f78029;
-$sharp-radical-red: #fb3846;
-$pale-radical-red: #ff455f;
-$wild-watermelon: #f95674;
-$mahogany: #d33f45;
-$tutu: #ffe6e6;
-$hit-pink: #f9a675;
-$powder-blue: #b1e2e1;
-$shamrock: #29bb9c;
-$shamrock-green: #26d092;
-$medium-turquoise: #53dfcb;
-$jungle-green: #31be84;
-$rajah: #fbaf5c;
-$dark-turquoise: #13d1d3;
+$blue: #438afe;
+$blue-pale: #0fb9c5;
+$purple: #7f63f4;
+$purple-pale: #e0cfff;
 
-// brand
-$dermes: #ef5831;
-$elyze: #75bc1e;
-$evvus: #2fbeb7;
-$reenex: #b5055b;
-$vigene: #b2d237;
-$dms: #ff465c;
-$geneoo: #574187;
-$geneoo-light: #8676a8;
-
+$box-shadow: 1.5px 2.6px 10px 0 rgba(119, 119, 119, 0.1);
 // grid
 $container-max-width: 1100px;
 // mobile display
@@ -117,20 +30,15 @@ $container-width-xs: $container-max-width + $grid-glutter-xs * 2;
 // desktop display
 $grid-glutter-sm: 20px;
 $container-width-sm: $container-max-width + $grid-glutter-sm * 2;
-
 // screen width
 $screen-xs: 480px !default;
 $screen-xs-min: $screen-xs !default;
-$screen-phone: $screen-xs-min !default;
 $screen-sm: 768px !default;
 $screen-sm-min: $screen-sm !default;
-$screen-tablet: $screen-sm-min !default;
 $screen-md: 992px !default;
 $screen-md-min: $screen-md !default;
-$screen-desktop: $screen-md-min !default;
 $screen-lg: 1200px !default;
 $screen-lg-min: $screen-lg !default;
-$screen-lg-desktop: $screen-lg-min !default;
 $screen-xs-max: ($screen-sm-min - 1) !default;
 $screen-sm-max: ($screen-md-min - 1) !default;
 $screen-md-max: ($screen-lg-min - 1) !default;
