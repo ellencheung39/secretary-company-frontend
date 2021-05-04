@@ -1,48 +1,85 @@
 <template>
   <div class="mainpage-layout">
-    <!-- <HomeNav></HomeNav>
-    <div class="mainpage-content-panel">
-      <LazyMainPage v-if="selected_tab == '/'"></LazyMainPage>
-      <LazyMainPageCommunity v-if="selected_tab == '/main-community'"></LazyMainPageCommunity>
-      <LazyMainPagePersonalisation v-if="selected_tab == '/main-personalisation' && !!is_guest"></LazyMainPagePersonalisation>
-      <LazyMainPageMyGratus v-if="selected_tab == '/main-personalisation' && !is_guest"></LazyMainPageMyGratus>
-    </div> -->
+    <div class="content-panel">
+      <lazy-list class="list" :list_desc="list_desc" :columns="columns" :search="document_list_search" :data="document_list_data" @update_search="update_document_list" />
+    </div>
   </div>
 </template>
 
 <script>
-  export default {};
+  import document from "~/vuex/document";
+  import { mapGetters } from "vuex";
+
+  export default {
+    data() {
+      return {
+        title: "文件清單",
+        columns: [
+          {
+            label: "SN",
+            data_location: "sn",
+          },
+          {
+            label: "CI",
+            data_location: "ci",
+          },
+          {
+            label: "br",
+            data_location: "br",
+          },
+          {
+            label: "客戶名稱",
+            data_location: "client_name",
+          },
+          {
+            label: "檔案名",
+            data_location: "document_name",
+          },
+          {
+            label: "上傳日期",
+            data_location: "upload_dt",
+          },
+          {
+            label: "操作",
+            url_desc: "詳情 / 下載",
+          },
+        ],
+        list_desc: {
+          title: "文件清單",
+          desc: "份文件",
+          url: "/document/edit/",
+          search_addon: [{
+            label: "分類",
+            data_location: "type",
+          }],
+        },
+      };
+    },
+    computed: {
+      ...mapGetters({
+        document_list_data: "document/document_list_data",
+        document_list_search: "document/document_list_search",
+      }),
+    },
+    created() {
+      this.$store.dispatch("setPage", { page_name: this.title });
+      if (!this.$store.hasModule("document")) {
+        this.$store.registerModule("document", document);
+      }
+    },
+    async fetch() {
+      await this.$store.dispatch("document/getDefaultDocumentList");
+    },
+    methods: {
+      async update_document_list(payload) {
+        await this.$store.dispatch("document/getDefaultDocumentList", payload);
+      },
+    },
+  };
 </script>
 
-<style>
-  .container {
-    margin: 0 auto;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-  }
-
-  .title {
-    font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont,
-      "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    display: block;
-    font-weight: 300;
-    font-size: 100px;
-    color: #35495e;
-    letter-spacing: 1px;
-  }
-
-  .subtitle {
-    font-weight: 300;
-    font-size: 42px;
-    color: #526488;
-    word-spacing: 5px;
-    padding-bottom: 15px;
-  }
-
-  .links {
-    padding-top: 15px;
+<style scoped lang="scss">
+  .dashboard {
+    margin: 30px 0;
   }
 </style>

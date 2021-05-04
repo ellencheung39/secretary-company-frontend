@@ -3,12 +3,13 @@
     <div class="list-title-panel">
       <div class="list-title">
         {{ list_desc.title }}
-        <nuxt-link class="icon-panel" :to="list_desc.url">
+        <nuxt-link v-if="list_desc.is_create_enabled" class="icon-panel" :to="list_desc.url">
           <fa-icon :icon="['fas', 'plus-circle']" />
         </nuxt-link>
       </div>
       <div class="list-search">
-        <input type="text" v-model="search_text" placeholder="Keyword" />
+        <input v-for="(s_a, s_a_i) in list_desc.search_addon" :key="`search_addon_${s_a_i}`" type="text" v-model="list_search[s_a.data_location]" :placeholder="s_a.label" />
+        <input type="text" v-model="list_search.search_text" placeholder="Keyword" />
         <span class="icon-panel" @click="update_search()">
           <fa-icon :icon="['fas', 'search']" />
         </span>
@@ -50,7 +51,7 @@
   export default {
     data() {
       return {
-        search_text: "",
+        list_search: {},
       };
     },
     props: {
@@ -63,7 +64,7 @@
     computed: {},
     created() {},
     async fetch() {
-      this.search_text = this.search.search_text;
+      this.list_search = Object.assign({}, this.search);
     },
     methods: {
       page_desc() {
@@ -79,10 +80,10 @@
         }`;
       },
       update_search(page_no) {
-        this.$emit("update_search", {
-          search: this.search_text,
-          page_no: page_no || this.search.page_no,
-        });
+        this.$emit(
+          "update_search",
+          Object.assign(this.list_search, { page_no: page_no })
+        );
       },
     },
   };
@@ -142,6 +143,9 @@
       padding: 10px 15px;
       &:first-of-type {
         padding-left: 40px;
+      }
+      a {
+        color: $purple;
       }
     }
     tr {

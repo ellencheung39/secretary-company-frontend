@@ -23,11 +23,11 @@ export default {
     SET_LOADING(state, payload) {
       state.is_loading = payload;
     },
-    SET_CURRECT_CLIENT(state, payload) {
+    SET_CURRECT_DOCUMENT(state, payload) {
       if (!payload) return;
       state.current_document = Object.freeze(payload);
     },
-    SET_CLIENT_LIST(state, payload) {
+    SET_DOCUMENT_LIST(state, payload) {
       if (!payload) return;
       state.document_list_data = Object.freeze(payload.documents);
       state.document_list_search = Object.freeze({
@@ -39,13 +39,13 @@ export default {
     },
   },
   actions: {
-    getDefaultCurrenctClient({ commit }) {
-      commit('SET_CURRECT_CLIENT', {
+    getDefaultCurrenctDocument({ commit }) {
+      commit('SET_CURRECT_DOCUMENT', {
         username: "George Martin"
       });
     },
-    getDefaultClientList({ commit }, payload) {
-      commit('SET_CLIENT_LIST', {
+    getDefaultDocumentList({ commit }, payload) {
+      commit('SET_DOCUMENT_LIST', {
         search_text: payload?.search_text,
         item_per_page: 10,
         page_no: payload?.page_no || 1,
@@ -85,22 +85,22 @@ export default {
         }]
       });
     },
-    async getCurrectClient({ commit }, payload) {
+    async getCurrectDocument({ commit }, payload) {
       let result = await this.$axios.$post(`${this.$config.baseURL}/document`, payload)
       if (result.response_code == 200) {
-        commit('SET_CURRECT_CLIENT', result.response_result);
+        commit('SET_CURRECT_DOCUMENT', result.response_result);
       }
     },
-    async getClientList({ commit }, payload) {
+    async getDocumentList({ commit }, payload) {
       let result = await this.$axios.$post(`${this.$config.baseURL}/document`, payload)
       if (result.response_code == 200) {
-        commit('SET_CLIENT_LIST', result.response_result);
+        commit('SET_DOCUMENT_LIST', result.response_result);
       }
     },
-    async saveClient({ commit }, payload) {
+    async saveDocument({ commit }, payload) {
       let result = await this.$axios.$post(`${this.$config.baseURL}/document`, payload)
       if (result.response_code == 200) {
-        commit('SET_CURRECT_CLIENT', result.response_result);
+        commit('SET_CURRECT_DOCUMENT', result.response_result);
       }
     },
   },

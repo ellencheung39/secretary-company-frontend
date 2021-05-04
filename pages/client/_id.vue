@@ -52,6 +52,7 @@
           title: "客戶列表",
           desc: "家公司",
           url: "/client/edit/",
+          is_create_enabled: false,
         },
       };
     },
