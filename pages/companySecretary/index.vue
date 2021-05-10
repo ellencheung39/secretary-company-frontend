@@ -48,7 +48,7 @@
         list_desc: {
           title: "秘書公司列表",
           desc: "家公司",
-          url: "/client/edit/",
+          url: "/companySecretary/edit/",
           is_create_enabled: true,
         },
       };

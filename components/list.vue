@@ -3,7 +3,7 @@
     <div class="list-title-panel">
       <div class="list-title">
         {{ list_desc.title }}
-        <nuxt-link v-if="list_desc.is_create_enabled" class="icon-panel" :to="list_desc.url">
+        <nuxt-link v-if="list_desc.url" class="icon-panel" :to="list_desc.url">
           <fa-icon :icon="['fas', 'plus-circle']" />
         </nuxt-link>
       </div>
@@ -26,7 +26,7 @@
         <tr v-for="(r, r_i) in data" :key="`list_row_${r_i}`" class="list-row">
           <td v-for="(c, c_i) in columns" :key="`list_row_item_${r_i}_${c_i}`">
             <span v-if="c.data_location">{{ r[c.data_location] }}</span>
-            <nuxt-link v-else :to="`${list_desc.url}${r.id}`">{{ c.url_desc }}</nuxt-link>
+            <nuxt-link v-else-if="list_desc.url" :to="`${list_desc.url}${r.id}`">{{ c.url_desc }}</nuxt-link>
           </td>
         </tr>
       </tbody>

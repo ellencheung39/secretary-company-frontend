@@ -39,9 +39,15 @@ export default {
     },
   },
   actions: {
-    getDefaultCurrenctClient({ commit }) {
+    getDefaultCurrentClient({ commit }) {
       commit('SET_CURRECT_CLIENT', {
-        username: "George Martin"
+        id: 1,
+        cr: "2639556",
+        br: "68804682",
+        client_name: "K&G Distributors",
+        company_name_tc: "K&G Distributors",
+        company_name_en: "Y&Co Distributors",
+        company_secretary: "AND CPA Limited"
       });
     },
     getDefaultClientList({ commit }, payload) {

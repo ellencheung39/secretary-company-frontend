@@ -29,8 +29,20 @@ export default {
             { menu_id: "1_3", menu_type_id: 1, icon: ['fas', 'file-alt'], menu_name: '移除秘書公司', url: '/companySecretary/delete' }
           ]
         },
-        { menu_id: "2_1", menu_type_id: 1, icon: ['fas', 'folder'], menu_name: '客戶列表', url: '/client' },
-        { menu_id: "3_1", menu_type_id: 1, icon: ['fas', 'folder'], menu_name: '公司列表', url: '/company' },
+        {
+          menu_id: "2_1", menu_type_id: 1, icon: ['fas', 'folder'], menu_name: '客戶列表', url: '/client',
+          sub_menus: [
+            { menu_id: "2_2", menu_type_id: 1, icon: ['fas', 'file-alt'], menu_name: '新增/修改客戶', url: '/client/edit' },
+            { menu_id: "2_3", menu_type_id: 1, icon: ['fas', 'file-alt'], menu_name: '移除客戶', url: '/client/delete' }
+          ]
+        },
+        {
+          menu_id: "3_1", menu_type_id: 1, icon: ['fas', 'folder'], menu_name: '公司列表', url: '/company',
+          sub_menus: [
+            { menu_id: "3_2", menu_type_id: 1, icon: ['fas', 'file-alt'], menu_name: '新增/修改客戶', url: '/company/edit' },
+            { menu_id: "3_3", menu_type_id: 1, icon: ['fas', 'file-alt'], menu_name: '移除客戶', url: '/company/delete' }
+          ]
+        },
         {
           menu_id: "4_1", menu_type_id: 1, icon: ['fas', 'folder'], menu_name: '文件清單', url: '/document',
           sub_menus: [

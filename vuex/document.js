@@ -39,7 +39,7 @@ export default {
     },
   },
   actions: {
-    getDefaultCurrenctDocument({ commit }) {
+    getDefaultCurrentDocument({ commit }) {
       commit('SET_CURRECT_DOCUMENT', {
         username: "George Martin"
       });
@@ -52,36 +52,40 @@ export default {
         total_count: 20,
         documents: [{
           id: 1,
-          cr: "2639556",
+          sn: "121",
+          ci: "2639556",
           br: "68804682",
-          document_name: "K&G Distributors",
-          company_name_tc: "K&G Distributors",
-          company_name_en: "Y&Co Distributors",
-          company_secretary: "AND CPA Limited"
+          document_name: "NAR1 周年申報表",
+          document_path: "NAR1_2021.pdf",
+          client_name: "K&G Distributors",
+          upload_dt: "31-3-2021 12:00"
         }, {
           id: 1,
-          cr: "2639556",
+          sn: "121",
+          ci: "2639556",
           br: "68804682",
-          document_name: "K&G Distributors",
-          company_name_tc: "K&G Distributors",
-          company_name_en: "Y&Co Distributors",
-          company_secretary: "AND CPA Limited"
+          document_name: "NAR1 周年申報表",
+          document_path: "NAR1_2021.pdf",
+          client_name: "K&G Distributors",
+          upload_dt: "31-3-2021 12:00"
         }, {
           id: 1,
-          cr: "2639556",
+          sn: "121",
+          ci: "2639556",
           br: "68804682",
-          document_name: "K&G Distributors",
-          company_name_tc: "K&G Distributors",
-          company_name_en: "Y&Co Distributors",
-          company_secretary: "AND CPA Limited"
+          document_name: "NAR1 周年申報表",
+          document_path: "NAR1_2021.pdf",
+          client_name: "K&G Distributors",
+          upload_dt: "31-3-2021 12:00"
         }, {
           id: 1,
-          cr: "2639556",
+          sn: "121",
+          ci: "2639556",
           br: "68804682",
-          document_name: "K&G Distributors",
-          company_name_tc: "K&G Distributors",
-          company_name_en: "Y&Co Distributors",
-          company_secretary: "AND CPA Limited"
+          document_name: "NAR1 周年申報表",
+          document_path: "NAR1_2021.pdf",
+          client_name: "K&G Distributors",
+          upload_dt: "31-3-2021 12:00"
         }]
       });
     },

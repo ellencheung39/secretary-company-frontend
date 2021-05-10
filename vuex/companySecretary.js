@@ -39,10 +39,15 @@ export default {
     },
   },
   actions: {
-    getDefaultCurrenctCompanySecretary({ commit }) {
+    getDefaultCurrentCompanySecretary({ commit }) {
       commit('SET_CURRECT_COMPANY_SECRETARY', {
-        username: "George Martin",
-        company_secretary: "ABC Com Sec Limited"
+        id: 1,
+        cr: "2639556",
+        br: "68804682",
+        client_name: "K&G Distributors",
+        company_name_tc: "K&G Distributors",
+        company_name_en: "Y&Co Distributors",
+        company_secretary: "AND CPA Limited"
       });
     },
     getDefaultCompanySecretaryList({ commit }, payload) {

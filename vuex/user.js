@@ -14,7 +14,7 @@ export default {
     }
   },
   actions: {
-    getDefaultCurrenctUser({ commit }) {
+    getDefaultCurrentUser({ commit }) {
       commit('SET_CURRECT_USER', {
         display_name: "George Martin"
       });

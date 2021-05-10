@@ -32,8 +32,12 @@
             data_location: "client_name",
           },
           {
-            label: "檔案名",
+            label: "文件名",
             data_location: "document_name",
+          },
+          {
+            label: "檔案名",
+            data_location: "document_path",
           },
           {
             label: "上傳日期",
