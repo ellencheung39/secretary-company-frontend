@@ -11,8 +11,8 @@
           </div>
           <div class="menu-name">{{ m.menu_name }}</div>
         </nuxt-link>
-        <div class="sub-menu" v-if="isCurrentMainPage(m.url)">
-          <nuxt-link class="menu-item" v-for="(sm, sm_i) in m.sub_menus" :key="`sub_menu_${m_i}_${sm_i}`" :to="sm.url" :class="{ selected: isCurrentMainPage(sm.url) }">
+        <div v-if="isCurrentMainPage(m.url)" class="sub-menu">
+          <nuxt-link v-for="(sm, sm_i) in m.sub_menus" :key="`sub_menu_${m_i}_${sm_i}`" class="menu-item" :to="sm.url" :class="{ selected: isCurrentMainPage(sm.url) }">
             <div class="icon-panel">
               <fa-icon :icon="sm.icon" />
             </div>
@@ -21,7 +21,7 @@
         </div>
 
         <div v-else-if="!!selected_menu && selected_menu.menu_id === m.menu_id" class="sub-menu">
-          <nuxt-link class="menu-item" v-for="(sm, sm_i) in selected_menu.sub_menus" :key="`sub_menu_${m_i}_${sm_i}`" :to="sm.url">
+          <nuxt-link v-for="(sm, sm_i) in selected_menu.sub_menus" :key="`sub_menu_${m_i}_${sm_i}`" class="menu-item" :to="sm.url">
             <div class="icon-panel">
               <fa-icon :icon="sm.icon" />
             </div>

@@ -1,22 +1,22 @@
 <template>
   <form class="form-layout" @submit.prevent="submit_form">
     <template v-for="(f, f_i) in fields">
-      <div v-if="f.display_type=='icon_input'" class="icon-input" :key="`field_${f_i}`">
+      <div v-if="f.display_type=='icon_input'" :key="`field_${f_i}`" class="icon-input">
         <label :for="f.data_location">{{ f.label }}</label>
         <div class="input-panel">
           <div class="icon-panel">
             <fa-icon :icon="['far', 'edit']" />
           </div>
-          <input :id="f.data_location" type="text" :placeholder="f.placeholder" v-model="form_data[f.data_location]" />
+          <input :id="f.data_location" v-model="form_data[f.data_location]" type="text" :placeholder="f.placeholder" />
         </div>
       </div>
-      <div v-else-if="f.display_type=='addon_checkbox'" class="addon-checkbox-input" :key="`field_${f_i}`">
-        <input :for="f.data_location" type="checkbox" v-model="form_data[f.data_location]" />
+      <div v-else-if="f.display_type=='addon_checkbox'" :key="`field_${f_i}`" class="addon-checkbox-input">
+        <input v-model="form_data[f.data_location]" :for="f.data_location" type="checkbox" />
         <label :for="f.data_location">{{ f.label }}</label>
       </div>
-      <div v-else class="default-input" :key="`field_${f_i}`">
+      <div v-else :key="`field_${f_i}`" class="default-input">
         <label :for="f.data_location">{{ f.label }}</label>
-        <input :id="f.data_location" :type="f.type" :placeholder="f.placeholder" v-model="form_data[f.data_location]" />
+        <input :id="f.data_location" v-model="form_data[f.data_location]" :type="f.type" :placeholder="f.placeholder" />
       </div>
     </template>
     <div class="action-panel">
@@ -28,18 +28,18 @@
 
 <script>
   export default {
-    data() {
-      return { form_data: {} };
-    },
     props: {
       fields: Array,
       data: Object,
     },
-    computed: {},
-    created() {},
+    data() {
+      return { form_data: {} };
+    },
     async fetch() {
       this.form_data = Object.assign({}, this.data);
     },
+    computed: {},
+    created() {},
     methods: {
       submit_form() {
         this.$emit("submit", this.form_data);

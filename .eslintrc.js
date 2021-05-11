@@ -4,13 +4,13 @@ module.exports = {
   // },
   extends: [
     // add more generic rulesets here, such as:
-    // 'eslint:recommended',
-    //'plugin:vue/vue3-recommended'
+    'eslint:recommended',
     'plugin:vue/recommended',
-    '@vue/standard',
-    "prettier",
+    'plugin:vue/vue3-recommended',
+    // '@vue/standard',
+    "prettier"
     // "plugin:prettier/recommended",
-    "prettier/vue",
+    // "prettier/vue",
     // "eslint:recommended"
   ],
   rules: {

@@ -1,0 +1,9 @@
+
+/* use with care */
+eslint --fix  "pages/*.{js,vue}"
+
+eslint  "pages/*.{js,vue}" 
+
+eslint  "components/HomeNav.{js,vue}"   
+
+eslint  "components/FreescrollCarousel.vue"  

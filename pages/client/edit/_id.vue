@@ -66,6 +66,12 @@
         ],
       };
     },
+    async fetch() {
+      await this.$store.dispatch("client/getDefaultCurrenctClient", {
+        id: this.$route.params["id"],
+      });
+      this.form_key += 1;
+    },
     computed: {
       ...mapGetters({
         current_client: "client/current_client",
@@ -77,15 +83,9 @@
         this.$store.registerModule("client", client);
       }
     },
-    async fetch() {
-      await this.$store.dispatch("client/getDefaultCurrenctClient", {
-        id: this.$route.params["id"],
-      });
-      this.form_key += 1;
-    },
     methods: {
       save_client(payload) {
-        this.$fetch();
+        this.$fetch(payload);
       },
     },
   };

@@ -10,11 +10,11 @@
     data() {
       return {};
     },
+    async fetch() {},
     computed: {},
     created() {},
-    async fetch() {},
-    methods: {},
     mounted() {},
+    methods: {},
   };
 </script>
 

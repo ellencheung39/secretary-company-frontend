@@ -56,6 +56,15 @@
         },
       };
     },
+    async fetch() {
+      await this.$store.dispatch("client/getDefaultClientList");
+      this.current_company = await this.$store.dispatch(
+        "company/getDefaultCurrentCompany",
+        {
+          id: this.$route.params["id"],
+        }
+      );
+    },
     computed: {
       ...mapGetters({
         client_list_data: "client/client_list_data",
@@ -70,15 +79,6 @@
       if (!this.$store.hasModule("company")) {
         this.$store.registerModule("company", company);
       }
-    },
-    async fetch() {
-      await this.$store.dispatch("client/getDefaultClientList");
-      this.current_company = await this.$store.dispatch(
-        "company/getDefaultCurrentCompany",
-        {
-          id: this.$route.params["id"],
-        }
-      );
     },
     methods: {
       async update_client_list(payload) {

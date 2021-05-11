@@ -35,8 +35,8 @@
         // return redirect("/login");
       }
     },
-    methods: {},
     mounted() {},
+    methods: {},
   };
 </script>
 

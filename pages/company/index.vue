@@ -51,6 +51,9 @@
         },
       };
     },
+    async fetch() {
+      await this.$store.dispatch("company/getDefaultCompanyList");
+    },
     computed: {
       ...mapGetters({
         company_list_data: "company/company_list_data",
@@ -62,9 +65,6 @@
       if (!this.$store.hasModule("company")) {
         this.$store.registerModule("company", company);
       }
-    },
-    async fetch() {
-      await this.$store.dispatch("company/getDefaultCompanyList");
     },
     methods: {
       async update_company_list(payload) {

@@ -1,7 +1,7 @@
 export default function ({ $axios, store, redirect, route }) {
 
   $axios.onRequest(config => {
-    if (!!store.getters["user/token"]) {
+    if (store.getters["user/token"]) {
       config.headers.common["Authorization"] = `Bearer ${store.getters["user/token"].access_token}`;
     }
 

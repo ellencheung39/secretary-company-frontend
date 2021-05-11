@@ -1,11 +1,11 @@
 <template>
   <div class="confirm-layout">
     <template v-for="(f, f_i) in fields">
-      <div v-if="f.type=='checkbox'" class="display-field" :key="`field_${f_i}`">
+      <div v-if="f.type=='checkbox'" :key="`field_${f_i}`" class="display-field">
         <label>{{ f.label }}</label>
         <fa-icon :icon="['far',data[f.data_location]?'check-square':'square']" />
       </div>
-      <div v-else class="display-field" :key="`field_${f_i}`">
+      <div v-else :key="`field_${f_i}`" class="display-field">
         <label>{{ f.label }}</label>
         <div class="display-field">{{ data[f.data_location] }}</div>
       </div>
@@ -19,16 +19,16 @@
 
 <script>
   export default {
-    data() {
-      return {};
-    },
     props: {
       fields: Array,
       data: Object,
     },
+    data() {
+      return {};
+    },
+    async fetch() {},
     computed: {},
     created() {},
-    async fetch() {},
     methods: {},
   };
 </script>

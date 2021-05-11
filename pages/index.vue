@@ -18,6 +18,7 @@
         title: "客戶列表",
       };
     },
+    async fetch() {},
     computed: {
       // ...mapGetters({
       //   user: "user/current_user",
@@ -33,7 +34,6 @@
       //   this.$store.registerModule("user", user);
       // }
     },
-    async fetch() {},
     methods: {
       // onShowSearchBar(val) {},
       // clearSelectedAccountMenu() {},

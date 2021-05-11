@@ -3,7 +3,7 @@
     <div class="logo-panel">
       <logo />
     </div>
-    <lazy-form class="login-form" :key="form_key" :fields="fields" @submit="login" />
+    <lazy-form :key="form_key" class="login-form" :fields="fields" @submit="login" />
   </div>
 </template>
 
@@ -12,7 +12,7 @@
   import { mapGetters } from "vuex";
 
   export default {
-    layout(content) {
+    layout() {
       return "footerOnly";
     },
     data() {
@@ -76,7 +76,7 @@
       width: 325px;
       margin-bottom: 85px;
     }
-    
+
     .login-form {
       padding: 30px 30px;
     }

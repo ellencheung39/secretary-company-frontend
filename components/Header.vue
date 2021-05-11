@@ -15,7 +15,7 @@
         <fa-icon :icon="['fas','bars']" size="lg" />
       </span>
     </div>
-    <div class="sub-header-panel" v-if="!!page">
+    <div v-if="!!page" class="sub-header-panel">
       <div class="page-name">{{ page.page_name }}</div>
     </div>
   </div>

@@ -46,10 +46,10 @@
   import { mapGetters } from "vuex";
 
   export default {
+    props: {},
     data() {
       return {};
     },
-    props: {},
     computed: {
       ...mapGetters({
         client_list_search: "client/client_list_search",
