@@ -2,11 +2,10 @@
   <div class="mainpage-layout">
     <div class="content-panel">
       <lazy-sub-title :sub_title="sub_title" />
-      <lazy-form :key="form_key" :fields="fields" :data="current_client" @submit="save_client" />
+      <lazy-display :key="display_key" :fields="fields" :data="current_client" @submit="delete_client" />
     </div>
   </div>
 </template>
-
 <script>
   import client from "~/vuex/client";
   import { mapGetters } from "vuex";
@@ -15,8 +14,8 @@
     data() {
       return {
         title: "公司詳情",
-        sub_title: this.$route.params["id"] ? "修改客戶" : "新增客戶",
-        form_key: 0,
+        sub_title: "移除客戶",
+        display_key: 0,
         fields: [
           {
             label: "客戶名稱",
@@ -42,15 +41,9 @@
             label: "密碼",
             type: "password",
             data_location: "password",
-          },
+          }
         ],
       };
-    },
-    async fetch() {
-      await this.$store.dispatch("client/getDefaultCurrenctClient", {
-        id: this.$route.params["id"],
-      });
-      this.form_key += 1;
     },
     computed: {
       ...mapGetters({
@@ -64,18 +57,22 @@
       }
     },
     async fetch() {
-      await this.$store.dispatch("client/getDefaultCurrentClient", {
-        id: this.$route.params["id"],
-      });
-      this.form_key += 1;
+      await this.$store.dispatch(
+        "client/getDefaultCurrentClient",
+        {
+          id: this.$route.params["id"],
+        }
+      );
+      this.display_key += 1;
     },
     methods: {
-      save_client(payload) {
-        this.$fetch(payload);
+      delete_client(payload) {
+        this.$fetch();
       },
     },
   };
 </script>
 
 <style scoped lang="scss">
+
 </style>

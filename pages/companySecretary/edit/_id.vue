@@ -78,7 +78,7 @@
       }
     },
     async fetch() {
-      await this.$store.dispatch("companySecretary/getDefaultCurrenctCompanySecretary", {
+      await this.$store.dispatch("companySecretary/getDefaultCurrentCompanySecretary", {
         id: this.$route.params["id"],
       });
       this.form_key += 1;
@@ -92,8 +92,4 @@
 </script>
 
 <style scoped lang="scss">
-  .sub-title {
-    padding: 40px 0;
-    font-size: 22px;
-  }
 </style>

@@ -2,7 +2,7 @@
   <div class="mainpage-layout">
     <div class="content-panel">
       <lazy-sub-title :sub_title="sub_title" />
-      <lazy-confirm :key="confirm_key" :fields="fields" :data="current_company_secretary" @submit="delete_company_secretary" />
+      <lazy-display :key="display_key" :fields="fields" :data="current_company_secretary" @submit="delete_company_secretary" />
     </div>
   </div>
 </template>
@@ -16,7 +16,7 @@
       return {
         title: "秘書公司",
         sub_title: "移除秘書公司",
-        confirm_key: 0,
+        display_key: 0,
         fields: [
           {
             label: "秘書公司名稱",
@@ -78,13 +78,10 @@
       }
     },
     async fetch() {
-      await this.$store.dispatch(
-        "companySecretary/getDefaultCurrenctCompanySecretary",
-        {
-          id: this.$route.params["id"],
-        }
-      );
-      this.confirm_key += 1;
+      await this.$store.dispatch("companySecretary/getDefaultCurrentCompanySecretary", {
+        id: this.$route.params["id"],
+      });
+      this.display_key += 1;
     },
     methods: {
       delete_company_secretary(payload) {
@@ -95,8 +92,4 @@
 </script>
 
 <style scoped lang="scss">
-  .sub-title {
-    padding: 40px 0;
-    font-size: 22px;
-  }
 </style>

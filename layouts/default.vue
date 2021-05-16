@@ -28,7 +28,7 @@
       }
     },
     async fetch() {
-      await this.$store.dispatch("user/getDefaultCurrenctUser");
+      await this.$store.dispatch("user/getDefaultCurrentUser");
     },
     middleware({ store, redirect }) {
       if (!store.state.user) {

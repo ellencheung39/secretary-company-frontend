@@ -39,9 +39,20 @@ export default {
     },
   },
   actions: {
-    getDefaultCurrenctCompany({ commit }) {
+    getDefaultCurrentCompany({ commit }) {
       commit('SET_CURRECT_Company', {
-        company_name: "ABC Com Sec Limited"
+        id: 1,
+        cr: "2639556",
+        br: "68804682",
+        mobile_no: "12345678",
+        email: "email",
+        register_dt: "12345678",
+        company_name: "K&G Distributors",
+        company_name_tc: "K&G Distributors",
+        company_name_en: "Y&Co Distributors",
+        company_secretary: "AND CPA Limited",
+        chairperson: ["abc", 'efg'],
+        shareholder: ["abc", 'efg']
       });
     },
     getDefaultCompanyList({ commit }, payload) {

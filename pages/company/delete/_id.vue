@@ -2,7 +2,7 @@
   <div class="mainpage-layout">
     <div class="content-panel">
       <lazy-sub-title :sub_title="sub_title" />
-      <lazy-form :key="form_key" :fields="fields" :data="current_company" @submit="save_company" />
+      <lazy-display :key="display_key" :fields="fields" :data="current_company" @submit="delete_company" />
     </div>
   </div>
 </template>
@@ -15,8 +15,8 @@
     data() {
       return {
         title: "公司詳情",
-        sub_title: this.$route.params["id"] ? "客戶: 陳大文 -> 修改公司" : "客戶: 陳大文 -> 新增公司",
-        form_key: 0,
+        sub_title: "客戶: 陳大文 -> 公司詳情",
+        display_key: 0,
         fields: [
           {
             label: "商業登記號 (BR)",
@@ -45,8 +45,8 @@
           },
           {
             label: "公司秘書",
-            display_type: "text",
-            data: "Eric Lee Com Sec Limited",
+            type: "text",
+            data_location: "company_secretary",
           },
           {
             label: "現有董事",
@@ -78,10 +78,10 @@
       await this.$store.dispatch("company/getDefaultCurrentCompany", {
         id: this.$route.params["id"],
       });
-      this.form_key += 1;
+      this.display_key += 1;
     },
     methods: {
-      save_company(payload) {
+      delete_company(payload) {
         this.$fetch();
       },
     },
