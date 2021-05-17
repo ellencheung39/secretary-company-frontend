@@ -1,13 +1,13 @@
 <template>
   <div class="mainpage-layout">
     <div class="content-panel">
-      <lazy-list class="list" :list_desc="list_desc" :columns="columns" :search="document_list_search" :data="document_list_data" @update_search="update_document_list" />
+      <lazy-list class="list" :list-desc="listDesc" :columns="columns" :search="document_list_search" :data="document_list_data" @update_search="update_document_list" />
     </div>
   </div>
 </template>
 
 <script>
-  import document from "~/vuex/document";
+  import document from "~/store/document";
   import { mapGetters } from "vuex";
 
   export default {
@@ -48,7 +48,7 @@
             url_desc: "詳情 / 下載",
           },
         ],
-        list_desc: {
+        listDesc: {
           title: "文件清單",
           desc: "份文件",
           url: "/document/edit/",

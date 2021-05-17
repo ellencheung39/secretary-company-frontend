@@ -1,22 +1,22 @@
 <template>
   <div class="mainpage-layout">
     <div class="content-panel">
-      <lazy-sub-title :sub_title="sub_title" />
-      <lazy-list class="list" :list_desc="list_desc" :columns="columns" :search="client_list_search" :data="client_list_data" @update_search="update_client_list" />
+      <lazy-sub-title :sub-title="subTitle" />
+      <lazy-list class="list" :list-desc="listDesc" :columns="columns" :search="client_list_search" :data="client_list_data" @update_search="update_client_list" />
     </div>
   </div>
 </template>
 
 <script>
-  import client from "~/vuex/client";
-  import company from "~/vuex/company";
+  import client from "~/store/client";
+  import company from "~/store/company";
   import { mapGetters } from "vuex";
 
   export default {
     data() {
       return {
         title: "客戶列表",
-        sub_title: `秘書公司名稱：ABC Com Sec Limited`,
+        subTitle: `秘書公司名稱：ABC Com Sec Limited`,
         current_company: {},
         columns: [
           {
@@ -48,7 +48,7 @@
             url_desc: "修改 / 詳情",
           },
         ],
-        list_desc: {
+        listDesc: {
           title: "客戶列表",
           desc: "家公司",
           url: "/client/edit/",

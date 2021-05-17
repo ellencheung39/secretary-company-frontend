@@ -52,47 +52,6 @@ export default {
     ** https://nuxtjs.org/guide/plugins
     */
 
-  // fontawesome: {
-  //   // If not set, you need to use default <font-awesome-icon> as element name
-  //   component: 'fa',
-  //   // imports: [
-  //   //   {
-  //   //     // Style: Solid, Prefix: fas, Availability: Free
-  //   //     set: '@fortawesome/free-solid-svg-icons',
-  //   //     icons: ['faGlobe', 'faSearch', 'faAngleDown', 'faAngleUp', 'faClipboardList', 'faMapMarkedAlt', 'faClock', 'faCircleNotch', 'faChevronDown', 'faChevronUp']
-  //   //   },
-  //   //   // {
-  //   //   //   // Style: Regular, Prefix: far, Availability: Free
-  //   //   //   set: '@fortawesome/free-regular-svg-icons',
-  //   //   //   icons: []
-  //   //   // },
-  //   //   {
-  //   //     // Style: Brands, Prefix: fab, Availability: Free
-  //   //     set: '@fortawesome/free-brands-svg-icons',
-  //   //     icons: ['faFacebookF', 'faInstagram', 'faFacebook', 'faWhatsapp']
-  //   //   },
-  //   //   {
-  //   //     // Style: Solid, Prefix: fas, Availability: Pro
-  //   //     set: '@fortawesome/pro-solid-svg-icons',
-  //   //     icons: ['faChevronDown', 'faChevronUp', 'faHeart', 'faSortAmountDown', 'faSlidersH', 'faSearchPlus', 'faChevronLeft', 'faChevronRight', 'faCaretCircleLeft', 'faCaretCircleRight', 'faCaretDown', 'faCaretUp']
-  //   //   },
-  //   //   {
-  //   //     // Style: Regular, Prefix: far, Availability: Pro
-  //   //     set: '@fortawesome/pro-regular-svg-icons',
-  //   //     icons: ['faBars', 'faChevronLeft', 'faChevronRight' , 'faHeart', 'faChevronDown', 'faChevronUp', 'faUser', 'faAngleRight', 'faInfoCircle', 'faSignOut', 'faCaretCircleLeft', 'faCaretCircleRight']
-  //   //   },
-  //   //   {
-  //   //     // Style: Light, Prefix: fal, Availability: Pro
-  //   //     set: '@fortawesome/pro-light-svg-icons',
-  //   //     icons: ['faSearch', 'faHeart', 'faEye', 'faExternalLink', 'faShoppingCart', 'faSignIn', 'faChevronUp', 'faChevronDown','faCalendarAlt', 'faPlusCircle', 'faExclamationCircle', 'faMinusCircle', 'faTimes', 'faAngleUp', 'faAngleDown', 'faCheck', 'faPlus', 'faFilter','faComment', 'faChevronLeft', 'faChevronRight', 'faInfoCircle', 'faThumbsUp', 'faTimesCircle', 'faSignOut']
-  //   //   },
-  //   //   // {
-  //   //   //   // Style: Duotone, Prefix: fad, Availability: Pro
-  //   //   //   set: '@fortawesome/pro-duotone-svg-icons',
-  //   //   //   icons: []
-  //   //   // }
-  //   // ]
-  // },
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   modules: [
@@ -100,16 +59,9 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/style-resources',
     '@nuxtjs/fontawesome',
-    // ['nuxt-i18n', {
-    //   defaultLocale: 'zh_hk',
-    //   locales: ['zh_cn', 'zh_hk', 'en_us'],
-    //   vueI18nLoader: true,
-    //   lazy: false,
-    //   strategy: 'no_prefix',
-    // }],
     ['cookie-universal-nuxt', {
       alias: 'cookiz',
-      parseJSON: false
+      parseJSON: true
     }],
     'nuxt-compress',
   ],
@@ -133,7 +85,8 @@ export default {
   ],
 
   publicRuntimeConfig: {
-    baseURL: "http://localhost:9000/api"
+    baseURL: "http://183.178.113.150:8000",
+    cookie_user: "current_user"
   },
   privateRuntimeConfig: {
   },

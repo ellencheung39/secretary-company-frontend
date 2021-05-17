@@ -1,13 +1,13 @@
 <template>
   <div class="mainpage-layout">
     <div class="content-panel">
-      <lazy-list class="list" :list_desc="list_desc" :columns="columns" :search="company_list_search" :data="company_list_data" @update_search="update_company_list" />
+      <lazy-list class="list" :list-desc="listDesc" :columns="columns" :search="company_list_search" :data="company_list_data" @update_search="update_company_list" />
     </div>
   </div>
 </template>
 
 <script>
-  import company from "~/vuex/company";
+  import company from "~/store/company";
   import { mapGetters } from "vuex";
 
   export default {
@@ -44,7 +44,7 @@
             url_desc: "修改 / 詳情",
           },
         ],
-        list_desc: {
+        listDesc: {
           title: "公司列表",
           desc: "家公司",
           url: "/company/edit/",

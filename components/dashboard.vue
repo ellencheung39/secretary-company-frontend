@@ -40,15 +40,19 @@
 </template>
 
 <script>
-  import client from "~/vuex/client";
-  import company from "~/vuex/company";
-  import document from "~/vuex/document";
+  import client from "~/store/client";
+  import company from "~/store/company";
+  import document from "~/store/document";
   import { mapGetters } from "vuex";
 
   export default {
     props: {},
+    emits: ["submit"],
     data() {
       return {};
+    },
+    async fetch() {
+      this.form_data = Object.assign({}, this.data);
     },
     computed: {
       ...mapGetters({
@@ -68,9 +72,7 @@
         this.$store.registerModule("document", document);
       }
     },
-    async fetch() {
-      this.form_data = Object.assign({}, this.data);
-    },
+
     methods: {
       submit_form() {
         this.$emit("submit", this.form_data);

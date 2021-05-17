@@ -2,13 +2,13 @@
   <div class="mainpage-layout">
     <div class="content-panel">
       <lazy-dashboard class="dashboard" />
-      <lazy-list class="list" :list_desc="list_desc" :columns="columns" :search="company_secretary_list_search" :data="company_secretary_list_data" @update_search="update_company_secretary_list" />
+      <lazy-list class="list" :list-desc="listDesc" :columns="columns" :search="company_secretary_list_search" :data="company_secretary_list_data" @update_search="update_company_secretary_list" />
     </div>
   </div>
 </template>
 
 <script>
-  import companySecretary from "~/vuex/companySecretary";
+  import companySecretary from "~/store/companySecretary";
   import { mapGetters } from "vuex";
 
   export default {
@@ -45,7 +45,7 @@
             url_desc: "修改 / 詳情 / 客戶列表",
           },
         ],
-        list_desc: {
+        listDesc: {
           title: "秘書公司列表",
           desc: "家公司",
           url: "/companySecretary/edit/",

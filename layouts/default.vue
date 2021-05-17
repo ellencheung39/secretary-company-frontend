@@ -10,29 +10,24 @@
 </template>
 
 <script>
-  import user from "~/vuex/user";
-  import { mapGetters } from "vuex";
+  import user from "~/store/user";
 
   export default {
+    async middleware({ store, redirect }) {
+      await store.dispatch("user/getUserFromCookie");
+      if (!store.state.user?.current_user?.token) {
+        console.log('redirect')
+        return redirect("/login");
+      }
+    },
     data() {
       return {};
     },
-    computed: {
-      ...mapGetters({
-        auth: "user/token",
-      }),
-    },
+    fetch() {},
+    computed: {},
     created() {
       if (!this.$store.hasModule("user")) {
         this.$store.registerModule("user", user);
-      }
-    },
-    async fetch() {
-      await this.$store.dispatch("user/getDefaultCurrentUser");
-    },
-    middleware({ store, redirect }) {
-      if (!store.state.user) {
-        // return redirect("/login");
       }
     },
     mounted() {},
@@ -58,7 +53,6 @@
   .mainpage-header-panel {
     grid-row: 1/2;
     z-index: 100;
-    
   }
   .mainpage-content-panel {
     grid-row: 2/3;

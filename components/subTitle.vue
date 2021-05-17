@@ -1,10 +1,13 @@
 <template>
-  <div class="sub-title-layout">{{ sub_title }}</div>
+  <div class="sub-title-layout">{{ subTitle }}</div>
 </template>
 <script>
   export default {
     props: {
-      sub_title: String,
+      subTitle: {
+        type: String,
+        default: "",
+      },
     },
   };
 </script>

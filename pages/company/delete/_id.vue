@@ -1,21 +1,21 @@
 <template>
   <div class="mainpage-layout">
     <div class="content-panel">
-      <lazy-sub-title :sub_title="sub_title" />
+      <lazy-sub-title :sub-title="subTitle" />
       <lazy-display :key="display_key" :fields="fields" :data="current_company" @submit="delete_company" />
     </div>
   </div>
 </template>
 
 <script>
-  import company from "~/vuex/company";
+  import company from "~/store/company";
   import { mapGetters } from "vuex";
 
   export default {
     data() {
       return {
         title: "公司詳情",
-        sub_title: "客戶: 陳大文 -> 公司詳情",
+        subTitle: "客戶: 陳大文 -> 公司詳情",
         display_key: 0,
         fields: [
           {
@@ -63,6 +63,12 @@
         ],
       };
     },
+    async fetch() {
+      await this.$store.dispatch("company/getDefaultCurrentCompany", {
+        id: this.$route.params["id"],
+      });
+      this.display_key += 1;
+    },
     computed: {
       ...mapGetters({
         current_company: "company/current_company",
@@ -73,12 +79,6 @@
       if (!this.$store.hasModule("company")) {
         this.$store.registerModule("company", company);
       }
-    },
-    async fetch() {
-      await this.$store.dispatch("company/getDefaultCurrentCompany", {
-        id: this.$route.params["id"],
-      });
-      this.display_key += 1;
     },
     methods: {
       delete_company(payload) {

@@ -17,9 +17,6 @@ export default {
     }
   }),
   mutations: {
-    RESET_TEMPORARY_VARIABLES(state, payload) {
-      state.temp = {};
-    },
     SET_LOADING(state, payload) {
       state.is_loading = payload;
     },

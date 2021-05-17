@@ -7,9 +7,9 @@ export default {
       type: "test",
       data_location: "name"
     }],
-    current_company: {},
-    company_list_data: [],
-    company_list_search: {
+    current_company_secretary: {},
+    company_secretary_list_data: [],
+    company_secretary_list_search: {
       search_text: "",
       item_per_page: 10,
       page_no: 1,
@@ -17,20 +17,17 @@ export default {
     }
   }),
   mutations: {
-    RESET_TEMPORARY_VARIABLES(state, payload) {
-      state.temp = {};
-    },
     SET_LOADING(state, payload) {
       state.is_loading = payload;
     },
-    SET_CURRECT_Company(state, payload) {
+    SET_CURRECT_COMPANY_SECRETARY(state, payload) {
       if (!payload) return;
-      state.current_company = Object.freeze(payload);
+      state.current_company_secretary = Object.freeze(payload);
     },
-    SET_Company_LIST(state, payload) {
+    SET_COMPANY_SECRETARY_LIST(state, payload) {
       if (!payload) return;
-      state.company_list_data = Object.freeze(payload.companys);
-      state.company_list_search = Object.freeze({
+      state.company_secretary_list_data = Object.freeze(payload.company_secretarys);
+      state.company_secretary_list_search = Object.freeze({
         search_text: payload.search_text,
         item_per_page: payload.item_per_page,
         page_no: payload.page_no,
@@ -39,33 +36,28 @@ export default {
     },
   },
   actions: {
-    getDefaultCurrentCompany({ commit }) {
-      commit('SET_CURRECT_Company', {
+    getDefaultCurrentCompanySecretary({ commit }) {
+      commit('SET_CURRECT_COMPANY_SECRETARY', {
         id: 1,
         cr: "2639556",
         br: "68804682",
-        mobile_no: "12345678",
-        email: "email",
-        register_dt: "12345678",
-        company_name: "K&G Distributors",
+        client_name: "K&G Distributors",
         company_name_tc: "K&G Distributors",
         company_name_en: "Y&Co Distributors",
-        company_secretary: "AND CPA Limited",
-        chairperson: ["abc", 'efg'],
-        shareholder: ["abc", 'efg']
+        company_secretary: "AND CPA Limited"
       });
     },
-    getDefaultCompanyList({ commit }, payload) {
-      commit('SET_Company_LIST', {
+    getDefaultCompanySecretaryList({ commit }, payload) {
+      commit('SET_COMPANY_SECRETARY_LIST', {
         search_text: payload?.search_text,
         item_per_page: 10,
         page_no: payload?.page_no || 1,
         total_count: 20,
-        companys: [{
+        company_secretarys: [{
           id: 1,
           cr: "2639556",
           br: "68804682",
-          company_name: "K&G Distributors",
+          client_name: "K&G Distributors",
           company_name_tc: "K&G Distributors",
           company_name_en: "Y&Co Distributors",
           company_secretary: "AND CPA Limited"
@@ -73,7 +65,7 @@ export default {
           id: 1,
           cr: "2639556",
           br: "68804682",
-          company_name: "K&G Distributors",
+          client_name: "K&G Distributors",
           company_name_tc: "K&G Distributors",
           company_name_en: "Y&Co Distributors",
           company_secretary: "AND CPA Limited"
@@ -81,7 +73,7 @@ export default {
           id: 1,
           cr: "2639556",
           br: "68804682",
-          company_name: "K&G Distributors",
+          client_name: "K&G Distributors",
           company_name_tc: "K&G Distributors",
           company_name_en: "Y&Co Distributors",
           company_secretary: "AND CPA Limited"
@@ -89,37 +81,37 @@ export default {
           id: 1,
           cr: "2639556",
           br: "68804682",
-          company_name: "K&G Distributors",
+          client_name: "K&G Distributors",
           company_name_tc: "K&G Distributors",
           company_name_en: "Y&Co Distributors",
           company_secretary: "AND CPA Limited"
         }]
       });
     },
-    async getCurrectCompany({ commit }, payload) {
-      let result = await this.$axios.$post(`${this.$config.baseURL}/company`, payload)
+    async getCurrectCompanySecretary({ commit }, payload) {
+      let result = await this.$axios.$post(`${this.$config.baseURL}/company_secretary`, payload)
       if (result.response_code == 200) {
-        commit('SET_CURRECT_Company', result.response_result);
+        commit('SET_CURRECT_COMPANY_SECRETARY', result.response_result);
       }
     },
-    async getCompanyList({ commit }, payload) {
-      let result = await this.$axios.$post(`${this.$config.baseURL}/company`, payload)
+    async getCompanySecretaryList({ commit }, payload) {
+      let result = await this.$axios.$post(`${this.$config.baseURL}/company_secretary`, payload)
       if (result.response_code == 200) {
-        commit('SET_Company_LIST', result.response_result);
+        commit('SET_COMPANY_SECRETARY_LIST', result.response_result);
       }
     },
-    async saveCompany({ commit }, payload) {
-      let result = await this.$axios.$post(`${this.$config.baseURL}/company`, payload)
+    async saveCompanySecretary({ commit }, payload) {
+      let result = await this.$axios.$post(`${this.$config.baseURL}/company_secretary`, payload)
       if (result.response_code == 200) {
-        commit('SET_CURRECT_Company', result.response_result);
+        commit('SET_CURRECT_COMPANY_SECRETARY', result.response_result);
       }
     },
   },
   getters: {
     is_loading: state => state.is_loading,
-    current_company: state => state.current_company,
-    company_list_data: state => state.company_list_data,
-    company_list_search: state => state.company_list_search,
+    current_company_secretary: state => state.current_company_secretary,
+    company_secretary_list_data: state => state.company_secretary_list_data,
+    company_secretary_list_search: state => state.company_secretary_list_search,
     fields: state => state.fields
   }
 }

@@ -1,21 +1,21 @@
 <template>
   <div class="mainpage-layout">
     <div class="content-panel">
-      <lazy-sub-title :sub_title="sub_title" />
+      <lazy-sub-title :sub-title="subTitle" />
       <lazy-form :key="form_key" :fields="fields" :data="current_company_secretary" @submit="save_company_secretary" />
     </div>
   </div>
 </template>
 
 <script>
-  import companySecretary from "~/vuex/companySecretary";
+  import companySecretary from "~/store/companySecretary";
   import { mapGetters } from "vuex";
 
   export default {
     data() {
       return {
         title: "秘書公司",
-        sub_title: this.$route.params["id"] ? "修改秘書公司" : "新增秘書公司",
+        subTitle: this.$route.params["id"] ? "修改秘書公司" : "新增秘書公司",
         form_key: 0,
         fields: [
           {
@@ -66,6 +66,12 @@
         ],
       };
     },
+    async fetch() {
+      await this.$store.dispatch("companySecretary/getDefaultCurrentCompanySecretary", {
+        id: this.$route.params["id"],
+      });
+      this.form_key += 1;
+    },
     computed: {
       ...mapGetters({
         current_company_secretary: "companySecretary/current_company_secretary",
@@ -77,14 +83,9 @@
         this.$store.registerModule("companySecretary", companySecretary);
       }
     },
-    async fetch() {
-      await this.$store.dispatch("companySecretary/getDefaultCurrentCompanySecretary", {
-        id: this.$route.params["id"],
-      });
-      this.form_key += 1;
-    },
+
     methods: {
-      save_company_secretary(payload) {
+      save_company_secretary(/*payload*/) {
         this.$fetch();
       },
     },

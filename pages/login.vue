@@ -8,12 +8,18 @@
 </template>
 
 <script>
-  import user from "~/vuex/user";
+  import user from "~/store/user";
   import { mapGetters } from "vuex";
 
   export default {
     layout() {
       return "footerOnly";
+    },
+    async middleware({ store, redirect }) {
+      await store.dispatch("user/getUserFromCookie");
+      if (store.state.user?.current_user?.token) {
+        return redirect("/companySecretary");
+      }
     },
     data() {
       return {
@@ -44,6 +50,9 @@
         ],
       };
     },
+    async fetch() {
+      this.form_key += 0;
+    },
     computed: {
       ...mapGetters({}),
     },
@@ -52,13 +61,9 @@
         this.$store.registerModule("user", user);
       }
     },
-    async fetch() {
-      this.form_key += 0;
-    },
     methods: {
-      async login() {
-        await this.$store.dispatch("user/login", this.login_data);
-        this.$router.push("/client");
+      login(payload) {
+        this.$store.dispatch("user/login", payload);
       },
     },
   };

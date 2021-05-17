@@ -1,21 +1,21 @@
 <template>
   <div class="mainpage-layout">
     <div class="content-panel">
-      <lazy-sub-title :sub_title="sub_title" />
+      <lazy-sub-title :sub-title="subTitle" />
       <lazy-form :key="form_key" :fields="fields" :data="current_client" @submit="save_client" />
     </div>
   </div>
 </template>
 
 <script>
-  import client from "~/vuex/client";
+  import client from "~/store/client";
   import { mapGetters } from "vuex";
 
   export default {
     data() {
       return {
         title: "公司詳情",
-        sub_title: this.$route.params["id"] ? "修改客戶" : "新增客戶",
+        subTitle: this.$route.params["id"] ? "修改客戶" : "新增客戶",
         form_key: 0,
         fields: [
           {
@@ -62,12 +62,6 @@
       if (!this.$store.hasModule("client")) {
         this.$store.registerModule("client", client);
       }
-    },
-    async fetch() {
-      await this.$store.dispatch("client/getDefaultCurrentClient", {
-        id: this.$route.params["id"],
-      });
-      this.form_key += 1;
     },
     methods: {
       save_client(payload) {

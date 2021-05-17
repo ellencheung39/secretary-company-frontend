@@ -2,13 +2,13 @@
   <div class="list-layout">
     <div class="list-title-panel">
       <div class="list-title">
-        {{ list_desc.title }}
-        <nuxt-link v-if="list_desc.url" class="icon-panel" :to="list_desc.url">
+        {{ listDesc.title }}
+        <nuxt-link v-if="listDesc.url" class="icon-panel" :to="listDesc.url">
           <fa-icon :icon="['fas', 'plus-circle']" />
         </nuxt-link>
       </div>
       <div class="list-search">
-        <input v-for="(s_a, s_a_i) in list_desc.search_addon" :key="`search_addon_${s_a_i}`" v-model="list_search[s_a.data_location]" type="text" :placeholder="s_a.label" />
+        <input v-for="(s_a, s_a_i) in listDesc.search_addon" :key="`search_addon_${s_a_i}`" v-model="list_search[s_a.data_location]" type="text" :placeholder="s_a.label" />
         <input v-model="list_search.search_text" type="text" placeholder="Keyword" />
         <span class="icon-panel" @click="update_search()">
           <fa-icon :icon="['fas', 'search']" />
@@ -26,7 +26,7 @@
         <tr v-for="(r, r_i) in data" :key="`list_row_${r_i}`" class="list-row">
           <td v-for="(c, c_i) in columns" :key="`list_row_item_${r_i}_${c_i}`">
             <span v-if="c.data_location">{{ r[c.data_location] }}</span>
-            <nuxt-link v-else-if="list_desc.url" :to="`${list_desc.url}${r.id}`">{{ c.url_desc }}</nuxt-link>
+            <nuxt-link v-else-if="listDesc.url" :to="`${listDesc.url}${r.id}`">{{ c.url_desc }}</nuxt-link>
           </td>
         </tr>
       </tbody>
@@ -50,12 +50,36 @@
 <script>
   export default {
     props: {
-      url: String,
-      columns: Array,
-      data: Array,
-      search: Object,
-      list_desc: Object,
+      url: {
+        type: String,
+        default: "",
+      },
+      columns: {
+        type: Array,
+        default() {
+          return [];
+        },
+      },
+      data: {
+        type: Array,
+        default() {
+          return [];
+        },
+      },
+      search: {
+        type: Object,
+        default() {
+          return {};
+        },
+      },
+      listDesc: {
+        type: Object,
+        default() {
+          return {};
+        },
+      },
     },
+    emits: ["update_search"],
     data() {
       return {
         list_search: {},
@@ -68,22 +92,10 @@
     created() {},
     methods: {
       page_desc() {
-        return `第 ${
-          this.search.item_per_page * (this.search.page_no - 1) + 1
-        } to ${
-          this.search.item_per_page * this.search.page_no <
-          this.search.total_count
-            ? this.search.item_per_page * this.search.page_no
-            : this.search.total_count
-        } ${this.list_desc.desc} / 總共 ${this.search.total_count} ${
-          this.list_desc.desc
-        }`;
+        return `第 ${this.search.item_per_page * (this.search.page_no - 1) + 1} to ${this.search.item_per_page * this.search.page_no < this.search.total_count ? this.search.item_per_page * this.search.page_no : this.search.total_count} ${this.listDesc.desc} / 總共 ${this.search.total_count} ${this.listDesc.desc}`;
       },
       update_search(page_no) {
-        this.$emit(
-          "update_search",
-          Object.assign(this.list_search, { page_no: page_no })
-        );
+        this.$emit("update_search", Object.assign(this.list_search, { page_no: page_no }));
       },
     },
   };

@@ -1,24 +1,13 @@
-export default function ({ $axios, store, redirect, route }) {
+export default function ({ $axios, store }) {
 
   $axios.onRequest(config => {
-    if (store.getters["user/token"]) {
-      config.headers.common["Authorization"] = `Bearer ${store.getters["user/token"].access_token}`;
+    if (store.getters["user/current_user"]) {
+      config.headers.common["Authorization"] = `Bearer ${store.getters["user/current_user"].token}`;
     }
-
-    
-
-    // if (!!config.data && !!config.data.no_need_loading) {
-    //   store.dispatch('setIsNoNeedLoading', true);
-    // } else {
-    //   store.dispatch('setIsNoNeedLoading', false);
-    // }
   });
 
   $axios.onResponse(response => {
-
+    if (response.data?.code != 0) throw response.data?.message
   });
 
-  $axios.onError(error => {
-
-  })
 }

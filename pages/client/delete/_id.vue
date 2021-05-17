@@ -1,20 +1,20 @@
 <template>
   <div class="mainpage-layout">
     <div class="content-panel">
-      <lazy-sub-title :sub_title="sub_title" />
+      <lazy-sub-title :sub-title="subTitle" />
       <lazy-display :key="display_key" :fields="fields" :data="current_client" @submit="delete_client" />
     </div>
   </div>
 </template>
 <script>
-  import client from "~/vuex/client";
+  import client from "~/store/client";
   import { mapGetters } from "vuex";
 
   export default {
     data() {
       return {
         title: "公司詳情",
-        sub_title: "移除客戶",
+        subTitle: "移除客戶",
         display_key: 0,
         fields: [
           {
@@ -41,9 +41,15 @@
             label: "密碼",
             type: "password",
             data_location: "password",
-          }
+          },
         ],
       };
+    },
+    async fetch() {
+      await this.$store.dispatch("client/getDefaultCurrentClient", {
+        id: this.$route.params["id"],
+      });
+      this.display_key += 1;
     },
     computed: {
       ...mapGetters({
@@ -56,15 +62,6 @@
         this.$store.registerModule("client", client);
       }
     },
-    async fetch() {
-      await this.$store.dispatch(
-        "client/getDefaultCurrentClient",
-        {
-          id: this.$route.params["id"],
-        }
-      );
-      this.display_key += 1;
-    },
     methods: {
       delete_client(payload) {
         this.$fetch();
@@ -74,5 +71,4 @@
 </script>
 
 <style scoped lang="scss">
-
 </style>

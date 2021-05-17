@@ -1,7 +1,7 @@
 <template>
   <div class="display-layout">
     <template v-for="(f, f_i) in fields">
-      <div v-if="f.display_type == 'multiple'" class="multiple-field" :key="`field_${f_i}`">
+      <div v-if="f.display_type == 'multiple'" :key="`field_${f_i}`" class="multiple-field">
         <label>{{ f.label }}</label>
         <div class="multiple-field-panel">
           <div v-for="(d, d_i) in data[f.data_location]" :key="`display_${f_i}_${d_i}`">
@@ -9,34 +9,45 @@
           </div>
         </div>
       </div>
-      <div v-else-if="f.type == 'checkbox'" class="display-field" :key="`field_${f_i}`">
+      <div v-else-if="f.type == 'checkbox'" :key="`field_${f_i}`" class="display-field">
         <label>{{ f.label }}</label>
         <fa-icon :icon="['far', data[f.data_location] ? 'check-square' : 'square']" />
       </div>
-      <div v-else class="display-field" :key="`field_${f_i}`">
+      <div v-else :key="`field_${f_i}`" class="display-field">
         <label>{{ f.label }}</label>
         <div>{{ data[f.data_location] }}</div>
       </div>
     </template>
     <div class="action-panel">
-      <button class="primary-button" type="button" @click="$emit('display', true)">提交</button>
-      <button class="secondary-button" type="button" @click="$emit('display', false)">取消</button>
+      <button class="primary-button" type="button" @click="$emit('confirm', true)">提交</button>
+      <button class="secondary-button" type="button" @click="$emit('confirm', false)">取消</button>
     </div>
   </div>
 </template>
 
 <script>
   export default {
+    props: {
+      fields: {
+        type: Array,
+        default() {
+          return [];
+        },
+      },
+      data: {
+        type: Object,
+        default() {
+          return {};
+        },
+      },
+    },
+    emits: ["confirm"],
     data() {
       return {};
     },
-    props: {
-      fields: Array,
-      data: Object,
-    },
+    async fetch() {},
     computed: {},
     created() {},
-    async fetch() {},
     methods: {},
   };
 </script>

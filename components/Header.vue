@@ -2,17 +2,17 @@
   <div class="header-layout">
     <div class="main-header-panel">
       <span class="icon-panel finger">
-        <fa-icon :icon="['fas','envelope']" size="lg" />
+        <fa-icon :icon="['fas', 'envelope']" size="lg" />
       </span>
       <span class="icon-panel finger">
-        <fa-icon :icon="['fas','bell']" size="lg" />
+        <fa-icon :icon="['fas', 'bell']" size="lg" />
       </span>
       <span class="user-panel finger">
         <span class="user-profile-image"></span>
         <span class="user-display-name">{{ user.display_name }}</span>
       </span>
       <span class="icon-panel finger">
-        <fa-icon :icon="['fas','bars']" size="lg" />
+        <fa-icon :icon="['fas', 'bars']" size="lg" />
       </span>
     </div>
     <div v-if="!!page" class="sub-header-panel">
@@ -22,14 +22,15 @@
 </template>
 
 <script>
-  import menu from "~/vuex/menu";
-  import user from "~/vuex/user";
+  import menu from "~/store/menu";
+  import user from "~/store/user";
   import { mapGetters } from "vuex";
 
   export default {
     data() {
       return {};
     },
+    async fetch() {},
     computed: {
       ...mapGetters({
         page: "page",
@@ -46,7 +47,6 @@
         this.$store.registerModule("user", user);
       }
     },
-    async fetch() {},
     methods: {},
   };
 </script>

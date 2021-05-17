@@ -8,9 +8,6 @@ export default {
     selected_menu: {},
   }),
   mutations: {
-    RESET_TEMPORARY_VARIABLES(state, payload) {
-      state.temp = {};
-    },
     SET_MENUS(state, payload) {
       if (!payload) return;
       state.menus = Object.freeze(payload);

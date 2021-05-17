@@ -1,21 +1,21 @@
 <template>
   <div class="mainpage-layout">
     <div class="content-panel">
-      <lazy-sub-title :sub_title="sub_title" />
+      <lazy-sub-title :sub-title="subTitle" />
       <lazy-form :key="form_key" :fields="fields" :data="current_company" @submit="save_company" />
     </div>
   </div>
 </template>
 
 <script>
-  import company from "~/vuex/company";
+  import company from "~/store/company";
   import { mapGetters } from "vuex";
 
   export default {
     data() {
       return {
         title: "公司詳情",
-        sub_title: this.$route.params["id"] ? "客戶: 陳大文 -> 修改公司" : "客戶: 陳大文 -> 新增公司",
+        subTitle: this.$route.params["id"] ? "客戶: 陳大文 -> 修改公司" : "客戶: 陳大文 -> 新增公司",
         form_key: 0,
         fields: [
           {
