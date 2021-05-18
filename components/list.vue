@@ -7,15 +7,15 @@
           <fa-icon :icon="['fas', 'plus-circle']" />
         </nuxt-link>
       </div>
-      <div class="list-search">
+      <!-- <div class="list-search">
         <input v-for="(s_a, s_a_i) in listDesc.search_addon" :key="`search_addon_${s_a_i}`" v-model="list_search[s_a.data_location]" type="text" :placeholder="s_a.label" />
         <input v-model="list_search.search_text" type="text" placeholder="Keyword" />
         <span class="icon-panel" @click="update_search()">
           <fa-icon :icon="['fas', 'search']" />
         </span>
-      </div>
+      </div> -->
     </div>
-    <div class="list-page-detail">{{ page_desc() }}</div>
+    <div class="list-page-detail">{{ page_desc }}</div>
     <table class="list-content-panel">
       <thead>
         <tr>
@@ -32,15 +32,15 @@
       </tbody>
     </table>
     <div class="pagination-panel">
-      <button :disabled="search.page_no <= 1" class="prev-button" type="button" @click="update_search(1)">
+      <button :disabled="offset < 1" class="prev-button" type="button" @click="update_search(1)">
         <fa-icon :icon="['fas', 'chevron-left']" />
       </button>
-      <button v-if="search.page_no > 2" type="button" @click="update_search(search.page_no - 2)">{{ search.page_no - 2 }}</button>
-      <button v-if="search.page_no > 1" type="button" @click="update_search(search.page_no - 1)">{{ search.page_no - 1 }}</button>
-      <button class="current-page-button" type="button">{{ search.page_no }}</button>
-      <button v-if="search.page_no + 1 <= search.total_count / search.item_per_page" type="button" @click="update_search(search.page_no + 1)">{{ search.page_no + 1 }}</button>
-      <button v-if="search.page_no + 2 <= search.total_count / search.item_per_page" type="button" @click="update_search(search.page_no + 2)">{{ search.page_no + 2 }}</button>
-      <button :disabled="search.page_no >= search.total_count / search.item_per_page" class="next-button" type="button" @click="update_search(Math.floor(search.total_count / search.item_per_page))">
+      <button v-if="offset > 2" type="button" @click="update_search(offset - 2)">{{ offset - 1 }}</button>
+      <button v-if="offset > 1" type="button" @click="update_search(offset - 1)">{{ offset }}</button>
+      <button class="current-page-button" type="button">{{ offset + 1 }}</button>
+      <button v-if="offset + 1 < count / limit" type="button" @click="update_search(offset + 1)">{{ offset + 2 }}</button>
+      <button v-if="offset + 2 < count / limit" type="button" @click="update_search(offset + 2)">{{ offset + 3 }}</button>
+      <button :disabled="offset + 1 > count / limit" class="next-button" type="button" @click="update_search(Math.floor(count / limit) - 1)">
         <fa-icon :icon="['fas', 'chevron-right']" />
       </button>
     </div>
@@ -66,11 +66,17 @@
           return [];
         },
       },
-      search: {
-        type: Object,
-        default() {
-          return {};
-        },
+      offset: {
+        type: Number,
+        default: 0,
+      },
+      limit: {
+        type: Number,
+        default: 20,
+      },
+      count: {
+        type: Number,
+        default: 0,
       },
       listDesc: {
         type: Object,
@@ -81,19 +87,17 @@
     },
     emits: ["update_search"],
     data() {
-      return {
-        list_search: {},
-      };
+      return {};
     },
     async fetch() {
-      this.list_search = Object.assign({}, this.search);
     },
-    computed: {},
-    created() {},
-    methods: {
-      page_desc() {
-        return `第 ${this.search.item_per_page * (this.search.page_no - 1) + 1} to ${this.search.item_per_page * this.search.page_no < this.search.total_count ? this.search.item_per_page * this.search.page_no : this.search.total_count} ${this.listDesc.desc} / 總共 ${this.search.total_count} ${this.listDesc.desc}`;
+    computed: {
+      page_desc: function () {
+        return `第 ${this.count ? this.limit * this.offset + 1 : this.count} to ${this.limit * (this.offset + 1) < this.count ? this.limit * (this.offset + 1) : this.count} ${this.listDesc.desc} / 總共 ${this.count} ${this.listDesc.desc}`;
       },
+    },
+    created() {console.log(this.data)},
+    methods: {
       update_search(page_no) {
         this.$emit("update_search", Object.assign(this.list_search, { page_no: page_no }));
       },

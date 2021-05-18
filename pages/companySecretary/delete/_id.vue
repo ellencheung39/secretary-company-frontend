@@ -19,24 +19,9 @@
         display_key: 0,
         fields: [
           {
-            label: "秘書公司名稱",
-            type: "text",
-            data_location: "company_secretary_name",
-          },
-          {
             label: "用戶名稱",
             type: "text",
             data_location: "username",
-          },
-          {
-            label: "電話",
-            type: "text",
-            data_location: "mobile_no",
-          },
-          {
-            label: "電郵",
-            type: "text",
-            data_location: "email",
           },
           {
             label: "密碼",
@@ -44,14 +29,24 @@
             data_location: "password",
           },
           {
-            label: "地址",
+            label: "秘書公司名稱",
             type: "text",
-            data_location: "address",
+            data_location: "name",
+          },
+          {
+            label: "電郵",
+            type: "text",
+            data_location: "email",
           },
           {
             label: "聯絡人",
             type: "text",
-            data_location: "contact_person",
+            data_location: "contact",
+          },
+          {
+            label: "地址",
+            type: "text",
+            data_location: "address",
           },
           {
             label: "是否持牌",
@@ -84,7 +79,7 @@
       }
     },
     methods: {
-      delete_company_secretary(payload) {
+      delete_company_secretary() {
         this.$fetch();
       },
     },

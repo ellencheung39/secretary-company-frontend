@@ -2,7 +2,7 @@
   <div class="mainpage-layout">
     <div class="content-panel">
       <lazy-dashboard class="dashboard" />
-      <lazy-list class="list" :list-desc="listDesc" :columns="columns" :search="company_secretary_list_search" :data="company_secretary_list_data" @update_search="update_company_secretary_list" />
+      <lazy-list class="list" :list-desc="listDesc" :columns="columns" :limit="limit" :page-no="offset" :count="count" :data="company_secretary_list" @update_search="update_company_secretary_list" />
     </div>
   </div>
 </template>
@@ -15,30 +15,31 @@
     data() {
       return {
         title: "公司列表",
+        limit: 20,
         columns: [
           {
-            label: "CR",
-            data_location: "cr",
+            label: "秘書公司名稱",
+            data_location: "name",
           },
           {
-            label: "BR",
-            data_location: "br",
+            label: "電郵",
+            data_location: "email",
           },
           {
-            label: "客戶名稱",
-            data_location: "client_name",
+            label: "聯絡人",
+            data_location: "contact",
           },
           {
-            label: "公司中文名",
-            data_location: "company_name_tc",
+            label: "地址",
+            data_location: "address",
           },
           {
-            label: "English Name",
-            data_location: "company_name_en",
+            label: "是否持牌",
+            data_location: "is_licensed",
           },
           {
-            label: "公司秘書",
-            data_location: "company_secretary",
+            label: "持牌人",
+            data_location: "licensee",
           },
           {
             label: "操作",
@@ -54,12 +55,16 @@
       };
     },
     async fetch() {
-      await this.$store.dispatch("companySecretary/getDefaultCompanySecretaryList");
+      if (this.offset === null) {
+        await this.$store.dispatch("companySecretary/getCompanySecretaryList", { offset: 0, limit: 20 });
+        console.log(this.company_secretary_list)
+      }
     },
     computed: {
       ...mapGetters({
-        company_secretary_list_data: "companySecretary/company_secretary_list_data",
-        company_secretary_list_search: "companySecretary/company_secretary_list_search",
+        company_secretary_list: "companySecretary/company_secretary_list",
+        offset: "companySecretary/offset",
+        count: "companySecretary/count",
       }),
     },
     created() {
@@ -70,7 +75,7 @@
     },
     methods: {
       async update_company_secretary_list(payload) {
-        await this.$store.dispatch("companySecretary/getDefaultCompanySecretaryList", payload);
+        await this.$store.dispatch("companySecretary/getCompanySecretaryList", payload);
       },
     },
   };

@@ -15,7 +15,7 @@ export default {
         username: payload.username,
         password: payload.password
       })
-
+      console.log(result)
       commit('SET_CURRECT_USER', result.data?.data);
       this.$cookiz.set(this.$config.cookie_user, result.data?.data, {
         maxAge: payload.remember_me ? 2147483647 : 60 * 60 * 24 * 365
