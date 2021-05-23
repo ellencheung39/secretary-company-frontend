@@ -12,7 +12,7 @@ export default {
     SET_LOADING(state, payload) {
       state.is_loading = payload;
     },
-    SET_CURRECT_COMPANY(state, payload) {
+    SET_CURRENT_COMPANY(state, payload) {
       if (!payload) return;
       state.current_company = Object.freeze(payload);
     },
@@ -28,9 +28,16 @@ export default {
     },
   },
   actions: {
-    async getCurrectCompany({ commit }, payload) {
-      let result = await this.$axios.$post(`${this.$config.baseURL}/user/company-list/`, payload)
-      commit('SET_CURRECT_COMPANY', result.data);
+    async getCurrentCompany({ commit }, payload) {
+      // let result = await this.$axios.$post(`${this.$config.baseURL}/user/company-list/`, payload)
+      // commit('SET_CURRENT_COMPANY', result.data)
+      commit('SET_CURRENT_COMPANY', {});
+    },
+    async getDefaultCompanyList({ commit, state }) {
+      if (state.offset !== null) return
+      commit('SET_COMPANY_LIST_REQUEST', { limit: 20, offset: 0 });
+      let result = await this.$axios.$get(`${this.$config.baseURL}/user/company-list/`, { params: { limit: 20, offset: 0 } })
+      commit('SET_COMPANY_LIST_RESPONSE', result.data);
     },
     async getCompanyList({ commit }, payload) {
       commit('SET_COMPANY_LIST_REQUEST', payload);
@@ -54,14 +61,15 @@ export default {
       let result = await payload.id ?
         this.$axios.$patch(`${this.$config.baseURL}/user/company-list/${payload.id}/update/`, content) :
         this.$axios.$post(`${this.$config.baseURL}/user/create-company/`, content)
-      commit('SET_CURRECT_COMPANY', result.data);
+      commit('SET_CURRENT_COMPANY', result.data);
     },
   },
   getters: {
     is_loading: state => state.is_loading,
     current_company: state => state.current_company,
-    company_list_data: state => state.company_list_data,
-    company_list_search: state => state.company_list_search,
-    fields: state => state.fields
+    company_list: state => state.company_list,
+    limit: state => state.limit,
+    offset: state => state.offset,
+    count: state => state.count
   }
 }

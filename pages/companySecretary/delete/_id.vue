@@ -12,6 +12,9 @@
   import { mapGetters } from "vuex";
 
   export default {
+    middleware({ route, redirect }) {
+      if (!route.params["id"]) return redirect("/companySecretary");
+    },
     data() {
       return {
         title: "秘書公司",
@@ -61,16 +64,13 @@
         ],
       };
     },
-    async fetch() {
-      await this.$store.dispatch("companySecretary/getDefaultCurrentCompanySecretary", {
-        id: this.$route.params["id"],
-      });
-      this.display_key += 1;
-    },
     computed: {
       ...mapGetters({
-        current_company_secretary: "companySecretary/current_company_secretary",
+        company_secretary_list: "companySecretary/company_secretary_list",
       }),
+      current_company_secretary: function () {
+        return this.company_secretary_list.find((_cs) => _cs.id == this.$route.params["id"]);
+      },
     },
     created() {
       this.$store.dispatch("setPage", { page_name: this.title });
@@ -80,7 +80,7 @@
     },
     methods: {
       delete_company_secretary() {
-        this.$fetch();
+        //this.$store.dispatch("companySecretary/saveCompanySecretary", { id: this.$route.params["id"], ...payload });
       },
     },
   };

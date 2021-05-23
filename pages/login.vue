@@ -17,7 +17,7 @@
     },
     async middleware({ store, redirect }) {
       await store.dispatch("user/getUserFromCookie");
-      if (store.state.user?.current_user?.token) {
+      if (store.state.user.current_user && store.state.user.current_user.token) {
         return redirect("/companySecretary");
       }
     },

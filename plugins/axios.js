@@ -1,13 +1,14 @@
 export default function ({ $axios, store }) {
 
   $axios.onRequest(config => {
-    if (store.getters["user/current_user"]?.token) {
+    if (store.getters["user/current_user"] && store.getters["user/current_user"].token) {
       config.headers.common["Authorization"] = `Token ${store.getters["user/current_user"].token}`;
     }
   });
 
   $axios.onResponse(response => {
-    if (response.data?.code != 0) throw response.data?.message
+    if (!response.data) throw 'no reponse'
+    if (response.data.code != 0) throw response.data.message
   });
 
 }

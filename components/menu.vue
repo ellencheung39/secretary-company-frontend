@@ -5,14 +5,14 @@
     </nuxt-link>
     <div class="menu-panel" @mouseleave="clearSelectedMenu()">
       <div v-for="(m, m_i) in menus" :key="`menu_${m_i}`" @mouseover="preSelectMenu(m)">
-        <nuxt-link class="menu-item" :to="m.url" :class="{ selected: isCurrentPage(m.url) }">
+        <nuxt-link :to="m.url" class="menu-item" :class="{ selected: isCurrentPage(m.url, m.sub_menus) }">
           <div class="icon-panel">
             <fa-icon :icon="m.icon" />
           </div>
           <div class="menu-name">{{ m.menu_name }}</div>
         </nuxt-link>
-        <div v-show="isCurrentMainPage(m.url) || (!!selected_menu && selected_menu.menu_id === m.menu_id)" class="sub-menu">
-          <nuxt-link v-for="(sm, sm_i) in m.sub_menus" :key="`sub_menu_${m_i}_${sm_i}`" :to="sm.url" class="menu-item" :class="{ selected: isCurrentMainPage(sm.url) }">
+        <div v-show="isCurrentPage(m.url) || (!!selected_menu && selected_menu.menu_id === m.menu_id)" class="sub-menu">
+          <nuxt-link v-for="(sm, sm_i) in m.sub_menus" :key="`sub_menu_${m_i}_${sm_i}`" :to="sm.url" :event="sm.is_disable ? '' : 'click'" class="menu-item" :class="{ disable: sm.is_disable, selected: isCurrentPage(sm.url) }">
             <div class="icon-panel">
               <fa-icon :icon="sm.icon" />
             </div>
@@ -41,7 +41,7 @@
       return {};
     },
     async fetch() {
-      await this.$store.dispatch("menu/getDefaultMenus");
+      await this.$store.dispatch("menu/getMenus");
     },
     computed: {
       ...mapGetters({
@@ -55,11 +55,8 @@
       }
     },
     methods: {
-      isCurrentMainPage(url) {
-        return this.$route.path.startsWith(url);
-      },
-      isCurrentPage(url) {
-        return this.$route.path === url;
+      isCurrentPage(url, sub_menus) {
+        return (this.$route.path.startsWith(url) && !(sub_menus && sub_menus.find((_sm) => this.$route.path.startsWith(_sm.url)))) || `${this.$route.path}/` === url;
       },
       preSelectMenu(menu) {
         this.$store.dispatch("menu/setSelectedMenu", menu);
@@ -79,7 +76,7 @@
     background-color: $white;
     box-shadow: $box-shadow;
     display: grid;
-    grid-template-rows: 100px auto;
+    grid-template-rows: 100px calc(100vh - 100px);
   }
   .logo-panel {
     grid-row: 1/2;
@@ -96,7 +93,10 @@
     border-left: 3px $white solid;
     display: flex;
     align-items: center;
-    cursor: pointer;
+    cursor: default;
+    &:not(.disable) {
+      cursor: pointer;
+    }
     .icon-panel {
       width: 20px;
       color: $gray-icon;
@@ -112,7 +112,9 @@
 
   .menu-item:hover,
   .menu-item.selected {
-    border-left-color: $purple;
-    background-color: $purple-pale;
+    &:not(.disable) {
+      border-left-color: $purple;
+      background-color: $purple-pale;
+    }
   }
 </style>

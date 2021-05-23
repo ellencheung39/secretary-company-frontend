@@ -63,6 +63,12 @@
         ],
       };
     },
+    async fetch() {
+      await this.$store.dispatch("company/getCurrentCompany", {
+        id: this.$route.params["id"],
+      });
+      this.form_key += 1;
+    },
     computed: {
       ...mapGetters({
         current_company: "company/current_company",
@@ -74,15 +80,9 @@
         this.$store.registerModule("company", company);
       }
     },
-    async fetch() {
-      await this.$store.dispatch("company/getDefaultCurrentCompany", {
-        id: this.$route.params["id"],
-      });
-      this.form_key += 1;
-    },
     methods: {
       save_company(payload) {
-        this.$fetch();
+        this.$store.dispatch("company/saveCompany", { id: this.$route.params["id"], ...payload });
       },
     },
   };

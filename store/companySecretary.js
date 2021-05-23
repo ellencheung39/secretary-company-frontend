@@ -12,7 +12,7 @@ export default {
     SET_LOADING(state, payload) {
       state.is_loading = payload;
     },
-    SET_CURRECT_COMPANY_SECRETARY(state, payload) {
+    SET_CURRENT_COMPANY_SECRETARY(state, payload) {
       if (!payload) return;
       state.current_company_secretary = Object.freeze(payload);
     },
@@ -23,20 +23,26 @@ export default {
     },
     SET_COMPANY_SECRETARY_LIST_RESPONSE(state, payload) {
       if (!payload) return;
-      state.company_secretary_list = Object.freeze(payload.results.map(_r =>{
+      state.company_secretary_list = Object.freeze(payload.results.map(_r => {
         return {
           ..._r.secretary,
           id: _r.id,
-          username:_r.username
+          username: _r.username
         }
       }));
       state.count = payload.count;
     },
   },
   actions: {
-    async getCurrectCompanySecretary({ commit }, payload) {
+    async getCurrentCompanySecretary({ commit }, payload) {
       let result = await this.$axios.$post(`${this.$config.baseURL}/user/manage/secretary-list/`, payload)
-      commit('SET_CURRECT_COMPANY_SECRETARY', result.data);
+      commit('SET_CURRENT_COMPANY_SECRETARY', result.data);
+    },
+    async getDefaultCompanySecretaryList({ commit, state }) {
+      if (state.offset !== null) return
+      commit('SET_COMPANY_SECRETARY_LIST_REQUEST', { limit: 20, offset: 0 });
+      let result = await this.$axios.$get(`${this.$config.baseURL}/user/manage/secretary-list/`, { params: { limit: 20, offset: 0 } })
+      commit('SET_COMPANY_SECRETARY_LIST_RESPONSE', result.data);
     },
     async getCompanySecretaryList({ commit }, payload) {
       commit('SET_COMPANY_SECRETARY_LIST_REQUEST', payload);
@@ -59,7 +65,7 @@ export default {
       let result = await payload.id ?
         this.$axios.$patch(`${this.$config.baseURL}/user/manage/secretary-list/${payload.id}/update/`, content) :
         this.$axios.$post(`${this.$config.baseURL}/user/manage/create-secretary/`, content)
-      commit('SET_CURRECT_COMPANY_SECRETARY', result.data);
+      commit('SET_CURRENT_COMPANY_SECRETARY', result.data);
     },
   },
   getters: {

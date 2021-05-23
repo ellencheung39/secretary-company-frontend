@@ -26,7 +26,10 @@
         <tr v-for="(r, r_i) in data" :key="`list_row_${r_i}`" class="list-row">
           <td v-for="(c, c_i) in columns" :key="`list_row_item_${r_i}_${c_i}`">
             <span v-if="c.data_location">{{ r[c.data_location] }}</span>
-            <nuxt-link v-else-if="listDesc.url" :to="`${listDesc.url}${r.id}`">{{ c.url_desc }}</nuxt-link>
+            <span v-for="(a, a_i) in c.action" v-else-if="c.action" :key="`list_row_item_action_${r_i}_${c_i}_${a_i}`">
+              <nuxt-link :to="`${a.url}${r.id}`"> {{ a.label }}</nuxt-link>
+              <span v-if="a_i != c.action.length - 1">/</span>
+            </span>
           </td>
         </tr>
       </tbody>
@@ -89,8 +92,7 @@
     data() {
       return {};
     },
-    async fetch() {
-    },
+    async fetch() {},
     computed: {
       page_desc: function () {
         return `第 ${this.count ? this.limit * this.offset + 1 : this.count} to ${this.limit * (this.offset + 1) < this.count ? this.limit * (this.offset + 1) : this.count} ${this.listDesc.desc} / 總共 ${this.count} ${this.listDesc.desc}`;

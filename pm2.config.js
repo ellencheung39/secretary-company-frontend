@@ -2,7 +2,7 @@ const { join } = require('path')
 
 module.exports = {
   apps: [{
-    name            : "gratus-nuxt",
+    name            : "secretary-company-nuxt",
     script          : "./node_modules/nuxt/bin/nuxt.js",
     exec_mode       : "cluster",
     watch           : false,
