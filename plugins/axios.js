@@ -1,7 +1,7 @@
 export default function ({ $axios, store }) {
 
   $axios.onRequest(config => {
-    if (store.getters["user/current_user"]) {
+    if (store.getters["user/current_user"]?.token) {
       config.headers.common["Authorization"] = `Token ${store.getters["user/current_user"].token}`;
     }
   });

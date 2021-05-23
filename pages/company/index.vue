@@ -1,7 +1,7 @@
 <template>
   <div class="mainpage-layout">
     <div class="content-panel">
-      <lazy-list class="list" :list-desc="listDesc" :columns="columns" :search="company_list_search" :data="company_list_data" @update_search="update_company_list" />
+      <lazy-list class="list" :list-desc="listDesc" :columns="columns" :limit="limit" :page-no="offset" :count="count" :data="company_list" @update_search="update_company_list" />
     </div>
   </div>
 </template>
@@ -14,6 +14,7 @@
     data() {
       return {
         title: "公司列表",
+        limit: 20,
         columns: [
           {
             label: "CR",
@@ -52,12 +53,15 @@
       };
     },
     async fetch() {
-      await this.$store.dispatch("company/getDefaultCompanyList");
+      if (this.offset === null) {
+        await this.$store.dispatch("company/getCompanyList", { offset: 0, limit: 20 });
+      }
     },
     computed: {
       ...mapGetters({
-        company_list_data: "company/company_list_data",
-        company_list_search: "company/company_list_search",
+        company_secretary_list: "companySecretary/company_secretary_list",
+        offset: "companySecretary/offset",
+        count: "companySecretary/count",
       }),
     },
     created() {
@@ -68,14 +72,11 @@
     },
     methods: {
       async update_company_list(payload) {
-        await this.$store.dispatch("company/getDefaultCompanyList", payload);
+        await this.$store.dispatch("company/getCompanyList", payload);
       },
     },
   };
 </script>
 
 <style scoped lang="scss">
-  .dashboard {
-    margin: 30px 0;
-  }
 </style>

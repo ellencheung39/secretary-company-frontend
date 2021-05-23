@@ -21,10 +21,15 @@ export default {
       state.limit = payload.limit;
       state.offset = payload.offset;
     },
-    SET_COMPANY_SECRETARY_LIST_RETURN(state, payload) {
-      console.log(payload)
+    SET_COMPANY_SECRETARY_LIST_RESPONSE(state, payload) {
       if (!payload) return;
-      state.company_secretary_list = Object.freeze(payload.results);
+      state.company_secretary_list = Object.freeze(payload.results.map(_r =>{
+        return {
+          ..._r.secretary,
+          id: _r.id,
+          username:_r.username
+        }
+      }));
       state.count = payload.count;
     },
   },
@@ -36,8 +41,7 @@ export default {
     async getCompanySecretaryList({ commit }, payload) {
       commit('SET_COMPANY_SECRETARY_LIST_REQUEST', payload);
       let result = await this.$axios.$get(`${this.$config.baseURL}/user/manage/secretary-list/`, { params: { limit: payload.limit, offset: payload.offset } })
-      console.log(result.data)
-      commit('SET_COMPANY_SECRETARY_LIST_RETURN', result.data);
+      commit('SET_COMPANY_SECRETARY_LIST_RESPONSE', result.data);
     },
     async saveCompanySecretary({ commit }, payload) {
       if (!payload) return

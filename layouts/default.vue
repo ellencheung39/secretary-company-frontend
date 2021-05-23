@@ -16,7 +16,6 @@
     async middleware({ store, redirect }) {
       await store.dispatch("user/getUserFromCookie");
       if (!store.state.user?.current_user?.token) {
-        console.log('redirect')
         return redirect("/login");
       }
     },

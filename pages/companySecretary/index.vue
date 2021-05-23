@@ -57,7 +57,6 @@
     async fetch() {
       if (this.offset === null) {
         await this.$store.dispatch("companySecretary/getCompanySecretaryList", { offset: 0, limit: 20 });
-        console.log(this.company_secretary_list)
       }
     },
     computed: {

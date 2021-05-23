@@ -1,12 +1,17 @@
 export default {
   namespaced: true,
   state: () => ({
-    current_user: {}
+    current_user: {
+      id: Number,
+       email: String,
+        is_superuser 
+    }
   }),
   mutations: {
     SET_CURRECT_USER(state, payload) {
       if (!payload) state.current_user = {}
       else state.current_user = Object.freeze(payload);
+      console.log(state.current_user)
     },
   },
   actions: {
@@ -15,7 +20,6 @@ export default {
         username: payload.username,
         password: payload.password
       })
-      console.log(result)
       commit('SET_CURRECT_USER', result.data?.data);
       this.$cookiz.set(this.$config.cookie_user, result.data?.data, {
         maxAge: payload.remember_me ? 2147483647 : 60 * 60 * 24 * 365

@@ -64,7 +64,6 @@
     created() {},
     methods: {
       add_more(field) {
-        console.log(field, this.form_data[field]);
         if (this.form_data[field]) this.$set(this.form_data[field], this.form_data[field].length, "");
         else this.$set(this.form_data, field, [""]);
       },
@@ -146,6 +145,7 @@
         width: 350px;
         padding: 0 15px;
         font-size: 16px;
+        margin: 0;
         &::placeholder {
           color: $gray-reminder;
         }

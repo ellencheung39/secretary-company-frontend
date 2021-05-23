@@ -96,7 +96,7 @@
         return `第 ${this.count ? this.limit * this.offset + 1 : this.count} to ${this.limit * (this.offset + 1) < this.count ? this.limit * (this.offset + 1) : this.count} ${this.listDesc.desc} / 總共 ${this.count} ${this.listDesc.desc}`;
       },
     },
-    created() {console.log(this.data)},
+    created() {},
     methods: {
       update_search(page_no) {
         this.$emit("update_search", Object.assign(this.list_search, { page_no: page_no }));
