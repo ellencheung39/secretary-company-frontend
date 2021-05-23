@@ -7,6 +7,7 @@
 </template>
 
 <script>
+  import user from "~/store/user";
   import company from "~/store/company";
   import { mapGetters } from "vuex";
 
@@ -45,11 +46,6 @@
             url_desc: "修改 / 詳情",
           },
         ],
-        listDesc: {
-          title: "公司列表",
-          desc: "家公司",
-          url: "/company/edit/",
-        },
       };
     },
     async fetch() {
@@ -59,16 +55,29 @@
     },
     computed: {
       ...mapGetters({
-        company_secretary_list: "companySecretary/company_secretary_list",
-        offset: "companySecretary/offset",
-        count: "companySecretary/count",
+        company_list: "company/company_list",
+        offset: "company/offset",
+        count: "company/count",
+        limit: "client/limit",
+        current_user: "user/current_user",
       }),
+      listDesc: function () {
+        return {
+          title: "公司列表",
+          desc: "家公司",
+          url: !this.current_user.is_superuser ? "/company/edit/" : null,
+        };
+      },
     },
     created() {
       this.$store.dispatch("setPage", { page_name: this.title });
       if (!this.$store.hasModule("company")) {
         this.$store.registerModule("company", company);
       }
+      if (!this.$store.hasModule("user")) {
+        this.$store.registerModule("user", user);
+      }
+      this.$store.dispatch("company/getDefaultCompanyList");
     },
     methods: {
       async update_company_list(payload) {

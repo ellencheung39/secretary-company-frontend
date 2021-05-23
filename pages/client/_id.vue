@@ -22,7 +22,6 @@
     data() {
       return {
         title: "客戶列表",
-        subTitle: `秘書公司名稱：ABC Com Sec Limited`,
         columns: [
           {
             label: "CR",
@@ -77,6 +76,13 @@
         limit: "client/limit",
         current_user: "user/current_user",
       }),
+      current_company_secretary: function () {
+        return this.company_secretary_list.find((_cs) => _cs.id == this.$route.params["id"]);
+      },
+      subTitle: function () {
+        if (!this.current_company_secretary) return null;
+        return `秘書公司名稱：${this.current_company_secretary.name}`;
+      },
       listDesc: function () {
         return {
           title: "客戶列表",
@@ -96,6 +102,8 @@
       if (!this.$store.hasModule("client")) {
         this.$store.registerModule("client", client);
       }
+      this.$store.dispatch("client/getDefaultClientList");
+      this.$store.dispatch("companySecretary/getDefaultCompanySecretaryList");
     },
     methods: {
       async update_client_list(payload) {
