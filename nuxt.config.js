@@ -97,7 +97,7 @@ export default {
     port: 8080,
     host: '0.0.0.0',
   },
-  ssr: false,
+  // ssr: false,
   styleResources: {
     scss: [
       'assets/scss/variables.scss',
