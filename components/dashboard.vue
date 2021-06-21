@@ -7,7 +7,7 @@
       <div class="icon-panel">
         <fa-icon :icon="['fas', 'file-invoice']" />
       </div>
-      <div class="dashboard-panel">{{ company_secretary_count }} 家秘書公司</div>
+      <div class="dashboard-panel">{{ dashboard_report.end_user_count__sum }} 家秘書公司</div>
     </div>
     <div class="company-dashboard">
       <svg class="progress-ring">
@@ -16,7 +16,7 @@
       <div class="icon-panel">
         <fa-icon :icon="['fas', 'file-invoice-dollar']" />
       </div>
-      <div class="dashboard-panel">{{ company_count }} 家公司</div>
+      <div class="dashboard-panel">{{ dashboard_report.company_count__sum }} 家公司</div>
     </div>
     <div class="pending-document-dashboard">
       <svg class="progress-ring">
@@ -25,7 +25,7 @@
       <div class="icon-panel">
         <fa-icon :icon="['fas', 'receipt']" />
       </div>
-      <div class="dashboard-panel">{{ document_count }} 份待審批文件</div>
+      <div class="dashboard-panel">{{ dashboard_report.pending_file_count__sum }} 份待審批文件</div>
     </div>
     <div class="approved-document-dashboard">
       <svg class="progress-ring">
@@ -34,15 +34,13 @@
       <div class="icon-panel">
         <fa-icon :icon="['fas', 'file-alt']" />
       </div>
-      <div class="dashboard-panel">{{ document_count }} 份已輜批文件</div>
+      <div class="dashboard-panel">{{ dashboard_report.passed_file_count__sum }} 份已輜批文件</div>
     </div>
   </div>
 </template>
 
 <script>
-  import companySecretary from "~/store/companySecretary";
-  import company from "~/store/company";
-  import document from "~/store/document";
+  import dashboard from "~/store/dashboard";
   import { mapGetters } from "vuex";
 
   export default {
@@ -50,26 +48,18 @@
     data() {
       return {};
     },
+    async fetch() {
+      await this.$store.dispatch("dashboard/getDashboardReport");
+    },
     computed: {
       ...mapGetters({
-        company_secretary_count: "companySecretary/count",
-        company_count: "company/count",
-        document_count: "document/count",
+        dashboard_report: "dashboard/dashboard_report",
       }),
     },
     created() {
-      if (!this.$store.hasModule("companySecretary")) {
-        this.$store.registerModule("companySecretary", companySecretary);
+      if (!this.$store.hasModule("dashboard")) {
+        this.$store.registerModule("dashboard", dashboard);
       }
-      if (!this.$store.hasModule("company")) {
-        this.$store.registerModule("company", company);
-      }
-      if (!this.$store.hasModule("document")) {
-        this.$store.registerModule("document", document);
-      }
-      this.$store.dispatch("companySecretary/getDefaultCompanySecretaryList");
-      this.$store.dispatch("company/getDefaultCompanyList");
-      this.$store.dispatch("document/getDefaultDocumentList");
     },
     methods: {},
   };
@@ -100,9 +90,6 @@
     transform: rotate(-90deg);
     transform-origin: 50% 50%;
     fill: transparent;
-    r: 52;
-    cx: 60;
-    cy: 60;
   }
 
   .icon-panel {

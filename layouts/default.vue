@@ -13,12 +13,14 @@
   import user from "~/store/user";
 
   export default {
-    async middleware({ store, redirect }) {
-      await store.dispatch("user/getUserFromCookie");
-      if (!store.state.user.current_user || !store.state.user.current_user.token) {
-        return redirect("/login");
-      }
-    },
+    middleware: [
+      async function ({ store, redirect }) {
+        await store.dispatch("user/getUserFromCookie");
+        if (!store.state.user.user_type || !store.state.user.token) {
+          return redirect("/login");
+        }
+      },
+    ],
     data() {
       return {};
     },

@@ -14,80 +14,72 @@
   import { mapGetters } from "vuex";
 
   export default {
-    async middleware({ store, route, redirect }) {
-      if (store.state.user.current_user.is_superuser && !route.params["id"]) {
-        return redirect("/companySecretary");
-      }
-    },
     data() {
       return {
         title: "客戶列表",
         columns: [
           {
-            label: "CR",
-            data_location: "cr",
-          },
-          {
-            label: "BR",
-            data_location: "br",
-          },
-          {
             label: "客戶名稱",
-            data_location: "client_name",
+            data_location: "name",
           },
           {
-            label: "公司中文名",
-            data_location: "company_name_tc",
+            label: "用戶名稱",
+            data_location: "username",
           },
           {
-            label: "English Name",
-            data_location: "company_name_en",
+            label: "電郵",
+            data_location: "email",
           },
           {
-            label: "公司秘書",
-            data_location: "company_secretary",
+            label: "電話",
+            data_location: "phone",
+          },
+          {
+            label: "名下公司",
+            data_location: "company_count",
           },
           {
             label: "操作",
             action: [
               {
                 label: "修改",
-                url: "/companySecretary/edit/",
+                url: "/client/edit/",
               },
               {
                 label: "詳情",
-                url: "/companySecretary/delete/",
+                url: "/client/delete/",
               },
               {
-                label: "客戶列表",
-                url: "/client/",
+                label: "公司列表",
+                url: "/company/",
               },
             ],
           },
         ],
       };
     },
+    fetch() {
+      this.$store.dispatch("companySecretary/getCompanySecretary", { id: this.$route.params["id"] });
+      this.$store.dispatch("client/getClientList");
+    },
     computed: {
       ...mapGetters({
-        company_secretary_list: "companySecretary/company_secretary_list",
+        company_secretary: "companySecretary/company_secretary",
         client_list: "client/client_list",
         offset: "client/offset",
         count: "client/count",
         limit: "client/limit",
-        current_user: "user/current_user",
+        user_type: "user/user_type",
       }),
-      current_company_secretary: function () {
-        return this.company_secretary_list.find((_cs) => _cs.id == this.$route.params["id"]);
-      },
       subTitle: function () {
-        if (!this.current_company_secretary) return null;
-        return `秘書公司名稱：${this.current_company_secretary.name}`;
+        if (!this.company_secretary) return null;
+        return `秘書公司名稱：${this.company_secretary.name}`;
       },
       listDesc: function () {
         return {
           title: "客戶列表",
           desc: "家公司",
-          url: !this.current_user.is_superuser ? "/client/edit/" : null,
+          url: this.user_type == 1 ? "/client/edit/" : null,
         };
       },
     },
@@ -102,12 +94,10 @@
       if (!this.$store.hasModule("client")) {
         this.$store.registerModule("client", client);
       }
-      this.$store.dispatch("client/getDefaultClientList");
-      this.$store.dispatch("companySecretary/getDefaultCompanySecretaryList");
     },
     methods: {
       async update_client_list(payload) {
-        await this.$store.dispatch("client/getDefaultClientList", payload);
+        await this.$store.dispatch("client/getClientList", payload);
       },
     },
   };

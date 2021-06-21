@@ -1,8 +1,8 @@
 export default function ({ $axios, store }) {
 
   $axios.onRequest(config => {
-    if (store.getters["user/current_user"] && store.getters["user/current_user"].token) {
-      config.headers.common["Authorization"] = `Token ${store.getters["user/current_user"].token}`;
+    if (store.getters["user/token"]) {
+      config.headers.common["Authorization"] = `Token ${store.getters["user/token"]}`;
     }
   });
 
@@ -10,5 +10,7 @@ export default function ({ $axios, store }) {
     if (!response.data) throw 'no reponse'
     if (response.data.code != 0) throw response.data.message
   });
-
+  $axios.onError(error => {
+    console.log(error.response)
+  });
 }

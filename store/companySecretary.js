@@ -2,19 +2,18 @@ export default {
   namespaced: true,
   state: () => ({
     is_loading: false,
-    current_company_secretary: {},
+    company_secretary: null,
     company_secretary_list: [],
     limit: 20,
     count: 0,
-    offset: null,
+    offset: 0,
   }),
   mutations: {
     SET_LOADING(state, payload) {
       state.is_loading = payload;
     },
-    SET_CURRENT_COMPANY_SECRETARY(state, payload) {
-      if (!payload) return;
-      state.current_company_secretary = Object.freeze(payload);
+    SET_COMPANY_SECRETARY(state, payload) {
+      state.company_secretary = Object.freeze(payload);
     },
     SET_COMPANY_SECRETARY_LIST_REQUEST(state, payload) {
       if (!payload) return;
@@ -34,22 +33,20 @@ export default {
     },
   },
   actions: {
-    async getCurrentCompanySecretary({ commit }, payload) {
-      let result = await this.$axios.$post(`${this.$config.baseURL}/user/manage/secretary-list/`, payload)
-      commit('SET_CURRENT_COMPANY_SECRETARY', result.data);
+    async getCompanySecretary({ commit }, payload) {
+      if (!payload.id) return commit('SET_COMPANY_SECRETARY', null)
+      let result = await this.$axios.$get(`${this.$config.baseURL}/user/manage/secretary-list/${payload.id}/`)
+      commit('SET_COMPANY_SECRETARY', { username: result.data.username, ...result.data.secretary });
     },
-    async getDefaultCompanySecretaryList({ commit, state }) {
-      if (state.offset !== null) return
-      commit('SET_COMPANY_SECRETARY_LIST_REQUEST', { limit: 20, offset: 0 });
-      let result = await this.$axios.$get(`${this.$config.baseURL}/user/manage/secretary-list/`, { params: { limit: 20, offset: 0 } })
-      commit('SET_COMPANY_SECRETARY_LIST_RESPONSE', result.data);
-    },
-    async getCompanySecretaryList({ commit }, payload) {
+    async getCompanySecretaryList({ commit, state }, payload) {
+      if (!payload) payload = {}
+      if (!payload.limit) payload.limit = state.limit || 20
+      if (!payload.offset) payload.offset = state.offset || 0
       commit('SET_COMPANY_SECRETARY_LIST_REQUEST', payload);
       let result = await this.$axios.$get(`${this.$config.baseURL}/user/manage/secretary-list/`, { params: { limit: payload.limit, offset: payload.offset } })
       commit('SET_COMPANY_SECRETARY_LIST_RESPONSE', result.data);
     },
-    async saveCompanySecretary({ commit }, payload) {
+    async saveCompanySecretary(_, payload) {
       if (!payload) return
       let content = {
         username: payload.username,
@@ -62,15 +59,19 @@ export default {
         is_licensed: !!payload.is_licensed,
         licensee: payload.licensee
       }
-      let result = await payload.id ?
+      await payload.id ?
         this.$axios.$patch(`${this.$config.baseURL}/user/manage/secretary-list/${payload.id}/update/`, content) :
         this.$axios.$post(`${this.$config.baseURL}/user/manage/create-secretary/`, content)
-      commit('SET_CURRENT_COMPANY_SECRETARY', result.data);
+      this.$router.push(`/companySecretary/`)
     },
+    async deleteCompanySecretary(_, payload) {
+      await this.$axios.$delete(`${this.$config.baseURL}/user/manage/secretary-list/${payload.id}/`)
+      this.$router.push(`/companySecretary/`)
+    }
   },
   getters: {
     is_loading: state => state.is_loading,
-    current_company_secretary: state => state.current_company_secretary,
+    company_secretary: state => state.company_secretary,
     company_secretary_list: state => state.company_secretary_list,
     limit: state => state.limit,
     offset: state => state.offset,

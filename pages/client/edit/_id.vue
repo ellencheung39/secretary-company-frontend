@@ -2,13 +2,13 @@
   <div class="mainpage-layout">
     <div class="content-panel">
       <lazy-sub-title :sub-title="subTitle" />
-      <lazy-form :key="form_key" :fields="fields" :data="current_client" @submit="save_client" />
+      <lazy-form :key="form_key" :fields="fields" :data="client" @submit="save_client" />
     </div>
   </div>
 </template>
 
 <script>
-  import company from "~/store/company";
+  import client from "~/store/client";
   import { mapGetters } from "vuex";
 
   export default {
@@ -19,53 +19,54 @@
         form_key: 0,
         fields: [
           {
-            label: "客戶名稱",
-            type: "text",
-            data_location: "client_name",
-          },
-          {
-            label: "Username",
+            label: "用戶名稱",
+            display_type: this.$route.params["id"] ? "text" : null,
             type: "text",
             data_location: "username",
-          },
-          {
-            label: "電話",
-            type: "text",
-            data_location: "mobile_no",
-          },
-          {
-            label: "電郵",
-            type: "text",
-            data_location: "email",
           },
           {
             label: "密碼",
             type: "password",
             data_location: "password",
           },
+          {
+            label: "客戶名稱",
+            type: "text",
+            data_location: "name",
+          },
+          {
+            label: "電話",
+            type: "text",
+            data_location: "phone",
+          },
+          {
+            label: "電郵",
+            type: "text",
+            data_location: "email",
+          },
         ],
       };
     },
     async fetch() {
-      await this.$store.dispatch("company/getDefaultCurrenctClient", {
+      await this.$store.dispatch("client/getClient", {
         id: this.$route.params["id"],
       });
       this.form_key += 1;
     },
     computed: {
       ...mapGetters({
-        current_client: "company/current_client",
+        client: "client/client",
       }),
     },
     created() {
       this.$store.dispatch("setPage", { page_name: this.title });
-      if (!this.$store.hasModule("company")) {
-        this.$store.registerModule("company", company);
+      if (!this.$store.hasModule("client")) {
+        this.$store.registerModule("client", client);
       }
     },
     methods: {
-      save_client(payload) {
-        this.$fetch(payload);
+      async save_client(payload) {
+        await this.$store.dispatch("client/saveClient", { id: this.$route.params["id"], ...payload });
       },
     },
   };

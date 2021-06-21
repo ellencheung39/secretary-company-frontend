@@ -2,7 +2,7 @@
   <div class="mainpage-layout">
     <div class="content-panel">
       <lazy-sub-title :sub-title="subTitle" />
-      <lazy-form :fields="fields" :data="current_company_secretary" @submit="save_company_secretary" />
+      <lazy-form :key="form_key" :fields="fields" :data="company_secretary" @submit="save_company_secretary" />
     </div>
   </div>
 </template>
@@ -19,6 +19,7 @@
         fields: [
           {
             label: "用戶名稱",
+            display_type: this.$route.params["id"] ? "text" : null,
             type: "text",
             data_location: "username",
           },
@@ -63,15 +64,19 @@
             data_location: "licensee",
           },
         ],
+        form_key: 0,
       };
+    },
+    async fetch() {
+      if (this.$route.params["id"]) {
+        await this.$store.dispatch("companySecretary/getCompanySecretary", { id: this.$route.params["id"] });
+        this.form_key += 1;
+      }
     },
     computed: {
       ...mapGetters({
-        company_secretary_list: "companySecretary/company_secretary_list",
+        company_secretary: "companySecretary/company_secretary",
       }),
-      current_company_secretary: function () {
-        return this.company_secretary_list.find((_cs) => _cs.id == this.$route.params["id"]);
-      },
     },
     created() {
       this.$store.dispatch("setPage", { page_name: this.title });
@@ -79,7 +84,6 @@
         this.$store.registerModule("companySecretary", companySecretary);
       }
     },
-
     methods: {
       save_company_secretary(payload) {
         this.$store.dispatch("companySecretary/saveCompanySecretary", { id: this.$route.params["id"], ...payload });

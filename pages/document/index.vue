@@ -72,11 +72,11 @@
       }
     },
     async fetch() {
-      await this.$store.dispatch("document/getDefaultDocumentList");
+      await this.$store.dispatch("document/getDocumentList");
     },
     methods: {
       async update_document_list(payload) {
-        await this.$store.dispatch("document/getDefaultDocumentList", payload);
+        await this.$store.dispatch("document/getDocumentList", payload);
       },
     },
   };

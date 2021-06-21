@@ -2,19 +2,18 @@ export default {
   namespaced: true,
   state: () => ({
     is_loading: false,
-    current_client: {},
+    client: {},
     client_list: [],
     limit: 20,
     count: 0,
-    offset: null,
+    offset: 0,
   }),
   mutations: {
     SET_LOADING(state, payload) {
       state.is_loading = payload;
     },
-    SET_CURRENT_CLIENT(state, payload) {
-      if (!payload) return;
-      state.current_client = Object.freeze(payload);
+    SET_CLIENT(state, payload) {
+      state.client = Object.freeze(payload);
     },
     SET_CLIENT_LIST_REQUEST(state, payload) {
       if (!payload) return;
@@ -23,50 +22,46 @@ export default {
     },
     SET_CLIENT_LIST_RESPONSE(state, payload) {
       if (!payload) return;
-      state.client_secretary_list = Object.freeze(payload.results);
+      state.client_list = Object.freeze(payload.results);
       state.count = payload.count;
     },
   },
   actions: {
-    async getCurrentClient({ commit }, payload) {
-      // let result = await this.$axios.$post(`${this.$config.baseURL}/user/client-list/`, payload)
-      // commit('SET_CURRENT_CLIENT', result.data)
-      commit('SET_CURRENT_CLIENT', {});
+    async getClient({ commit }, payload) {
+      if (!payload.id) return commit('SET_CLIENT', null)
+      let result = await this.$axios.$get(`${this.$config.baseURL}/user/secretary/end-user-list/${payload.id}/`)
+      commit('SET_CLIENT', result.data);
     },
-    async getDefaultClientList({ commit, state }) {
-      if (state.offset !== null) return
-      commit('SET_CLIENT_LIST_REQUEST', { limit: 20, offset: 0 });
-      let result = await this.$axios.$get(`${this.$config.baseURL}/user/client-list/`, { params: { limit: 20, offset: 0 } })
-      commit('SET_CLIENT_LIST_RESPONSE', result.data);
-    },
-    async getClientList({ commit }, payload) {
+    async getClientList({ commit, state }, payload) {
+      if (!payload) payload = {}
+      if (!payload.limit) payload.limit = state.limit || 20
+      if (!payload.offset) payload.offset = state.offset || 0
       commit('SET_CLIENT_LIST_REQUEST', payload);
-      let result = await this.$axios.$get(`${this.$config.baseURL}/user/client-list/`, { params: { limit: payload.limit, offset: payload.offset } })
+      let result = await this.$axios.$get(`${this.$config.baseURL}/user/secretary/end-user-list/`, { params: { limit: payload.limit, offset: payload.offset } })
       commit('SET_CLIENT_LIST_RESPONSE', result.data);
     },
-    async saveClient({ commit }, payload) {
+    async saveClient(_, payload) {
       if (!payload) return
       let content = {
+        username: payload.username,
+        password: payload.password,
+        name: payload.name,
         phone: payload.phone,
         email: payload.email,
-        business_registration: payload.business_registration,
-        certificate_registration: payload.certificate_registration,
-        chinese_name: payload.chinese_name,
-        english_name: payload.english_name,
-        exchange_secretary: payload.exchange_secretary,
-        current_directors: payload.current_directors,
-        current_shareholders: payload.current_shareholders,
-        register_time: new Date()
       }
-      let result = await payload.id ?
-        this.$axios.$patch(`${this.$config.baseURL}/user/client-list/${payload.id}/update/`, content) :
-        this.$axios.$post(`${this.$config.baseURL}/user/create-client/`, content)
-      commit('SET_CURRENT_CLIENT', result.data);
+      await payload.id ?
+        this.$axios.$patch(`${this.$config.baseURL}/user/secretary/end-user-list/${payload.id}/update/`, content) :
+        this.$axios.$post(`${this.$config.baseURL}/user/secretary/create-end-user/`, content)
+      this.$router.push(`/client/`)
     },
+    async deleteClient(_, payload) {
+      await this.$axios.$delete(`${this.$config.baseURL}/user/secretary/end-user-list/${payload.id}/`)
+      this.$router.push(`/client/`)
+    }
   },
   getters: {
     is_loading: state => state.is_loading,
-    current_client: state => state.current_client,
+    client: state => state.client,
     client_list: state => state.client_list,
     limit: state => state.limit,
     offset: state => state.offset,

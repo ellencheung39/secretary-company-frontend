@@ -2,7 +2,7 @@
   <div class="mainpage-layout">
     <div class="content-panel">
       <lazy-sub-title :sub-title="subTitle" />
-      <lazy-display :key="display_key" :fields="fields" :data="current_company" @submit="delete_company" />
+      <lazy-display :key="display_key" :fields="fields" :data="company" @submit="delete_company" />
     </div>
   </div>
 </template>
@@ -64,14 +64,14 @@
       };
     },
     async fetch() {
-      await this.$store.dispatch("company/getDefaultCurrentCompany", {
+      await this.$store.dispatch("company/getCompany", {
         id: this.$route.params["id"],
       });
       this.display_key += 1;
     },
     computed: {
       ...mapGetters({
-        current_company: "company/current_company",
+        company: "company/company",
       }),
     },
     created() {

@@ -2,7 +2,7 @@
   <div class="mainpage-layout">
     <div class="content-panel">
       <lazy-sub-title :sub-title="subTitle" />
-      <lazy-form :key="form_key" :fields="fields" :data="current_company" @submit="save_company" />
+      <lazy-form :key="form_key" :fields="fields" :data="company" @submit="save_company" />
     </div>
   </div>
 </template>
@@ -15,18 +15,17 @@
     data() {
       return {
         title: "公司詳情",
-        subTitle: this.$route.params["id"] ? "客戶: 陳大文 -> 修改公司" : "客戶: 陳大文 -> 新增公司",
         form_key: 0,
         fields: [
           {
             label: "商業登記號 (BR)",
             type: "text",
-            data_location: "br",
+            data_location: "business_registration",
           },
           {
             label: "公司註冊號 (CR)",
             type: "text",
-            data_location: "cr",
+            data_location: "certificate_registration",
           },
           {
             label: "公司電話",
@@ -64,15 +63,18 @@
       };
     },
     async fetch() {
-      await this.$store.dispatch("company/getCurrentCompany", {
+      await this.$store.dispatch("company/getCompany", {
         id: this.$route.params["id"],
       });
       this.form_key += 1;
     },
     computed: {
       ...mapGetters({
-        current_company: "company/current_company",
+        company: "company/company",
       }),
+      subTitle: function () {
+        return `客戶: ${this.company.end_user.username} -> 修改公司`;
+      },
     },
     created() {
       this.$store.dispatch("setPage", { page_name: this.title });

@@ -2,19 +2,18 @@ export default {
   namespaced: true,
   state: () => ({
     is_loading: false,
-    current_company: {},
+    company: {},
     company_list: [],
     limit: 20,
     count: 0,
-    offset: null,
+    offset: 0,
   }),
   mutations: {
     SET_LOADING(state, payload) {
       state.is_loading = payload;
     },
-    SET_CURRENT_COMPANY(state, payload) {
-      if (!payload) return;
-      state.current_company = Object.freeze(payload);
+    SET_COMPANY(state, payload) {
+      state.company = Object.freeze(payload);
     },
     SET_COMPANY_LIST_REQUEST(state, payload) {
       if (!payload) return;
@@ -23,50 +22,59 @@ export default {
     },
     SET_COMPANY_LIST_RESPONSE(state, payload) {
       if (!payload) return;
-      state.company_secretary_list = Object.freeze(payload.results);
+      state.company_list = Object.freeze(payload.results);
       state.count = payload.count;
     },
   },
   actions: {
-    async getCurrentCompany({ commit }, payload) {
-      // let result = await this.$axios.$post(`${this.$config.baseURL}/user/company-list/`, payload)
-      // commit('SET_CURRENT_COMPANY', result.data)
-      commit('SET_CURRENT_COMPANY', {});
+    async getCompany({ commit }, payload) {
+      if (!payload.id) return commit('SET_COMPANY', null)
+      let result = await this.$axios.$get(`${this.$config.baseURL}/user/company-list/${payload.id}/`)
+      commit('SET_COMPANY', result.data)
     },
-    async getDefaultCompanyList({ commit, state }) {
-      if (state.offset !== null) return
-      commit('SET_COMPANY_LIST_REQUEST', { limit: 20, offset: 0 });
-      let result = await this.$axios.$get(`${this.$config.baseURL}/user/company-list/`, { params: { limit: 20, offset: 0 } })
-      commit('SET_COMPANY_LIST_RESPONSE', result.data);
-    },
-    async getCompanyList({ commit }, payload) {
+    async getCompanyList({ commit, state }, payload) {
+      if (!payload) payload = {}
+      if (!payload.limit) payload.limit = state.limit || 20
+      if (!payload.offset) payload.offset = state.offset || 0
       commit('SET_COMPANY_LIST_REQUEST', payload);
-      let result = await this.$axios.$get(`${this.$config.baseURL}/user/company-list/`, { params: { limit: payload.limit, offset: payload.offset } })
+      let result = await this.$axios.$get(`${this.$config.baseURL}/user/company-list/`, { params: { end_user: payload.id, limit: payload.limit, offset: payload.offset } })
       commit('SET_COMPANY_LIST_RESPONSE', result.data);
     },
-    async saveCompany({ commit }, payload) {
+    async saveCompany(_, payload) {
       if (!payload) return
       let content = {
-        phone: payload.phone,
-        email: payload.email,
+        end_user: payload.end_user,
         business_registration: payload.business_registration,
         certificate_registration: payload.certificate_registration,
-        chinese_name: payload.chinese_name,
-        english_name: payload.english_name,
-        exchange_secretary: payload.exchange_secretary,
-        current_directors: payload.current_directors,
-        current_shareholders: payload.current_shareholders,
-        register_time: new Date()
+        company_chinese_name: payload.company_chinese_name,
+        company_english_name: payload.company_english_name,
+        type_of_company: payload.type_of_company,
+        company_address: payload.company_address,
+        company_email: payload.company_email,
+        // company_email: payload.company_email,
+        // company_email: payload.company_email,
+        // company_email: payload.company_email,
+        // company_email: payload.company_email,
+        // company_email: payload.company_email,
+        // company_email: payload.company_email,
+        // company_email: payload.company_email,
+
+        presentor_name: new Date()
       }
-      let result = await payload.id ?
+      await payload.id ?
         this.$axios.$patch(`${this.$config.baseURL}/user/company-list/${payload.id}/update/`, content) :
         this.$axios.$post(`${this.$config.baseURL}/user/create-company/`, content)
-      commit('SET_CURRENT_COMPANY', result.data);
+      this.$router.push(`/company/${payload.end_user}`)
     },
+
+    async deleteClient(_, payload) {
+      await this.$axios.$delete(`${this.$config.baseURL}/user/company-list/${payload.id}/`)
+      this.$router.push(`/company/${payload.end_user}`)
+    }
   },
   getters: {
     is_loading: state => state.is_loading,
-    current_company: state => state.current_company,
+    company: state => state.company,
     company_list: state => state.company_list,
     limit: state => state.limit,
     offset: state => state.offset,

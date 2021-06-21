@@ -2,7 +2,7 @@
   <div class="mainpage-layout">
     <div class="content-panel">
       <lazy-sub-title :sub-title="subTitle" />
-      <lazy-display :key="display_key" :fields="fields" :data="current_company_secretary" @submit="delete_company_secretary" />
+      <lazy-display :key="display_key" :fields="fields" :data="company_secretary" @submit="delete_company_secretary" />
     </div>
   </div>
 </template>
@@ -54,7 +54,7 @@
           {
             label: "是否持牌",
             type: "checkbox",
-            data_location: "is_Licensed",
+            data_location: "is_licensed",
           },
           {
             label: "持牌人",
@@ -64,13 +64,14 @@
         ],
       };
     },
+    async fetch() {
+      await this.$store.dispatch("companySecretary/getCompanySecretary", { id: this.$route.params["id"] });
+      this.display_key += 0;
+    },
     computed: {
       ...mapGetters({
-        company_secretary_list: "companySecretary/company_secretary_list",
+        company_secretary: "companySecretary/company_secretary",
       }),
-      current_company_secretary: function () {
-        return this.company_secretary_list.find((_cs) => _cs.id == this.$route.params["id"]);
-      },
     },
     created() {
       this.$store.dispatch("setPage", { page_name: this.title });
@@ -80,7 +81,7 @@
     },
     methods: {
       delete_company_secretary() {
-        //this.$store.dispatch("companySecretary/saveCompanySecretary", { id: this.$route.params["id"], ...payload });
+        this.$store.dispatch("companySecretary/deleteCompanySecretary", { id: this.$route.params["id"] });
       },
     },
   };

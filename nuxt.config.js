@@ -85,7 +85,8 @@ export default {
 
   publicRuntimeConfig: {
     baseURL: "http://183.178.113.150:8000",
-    cookie_user: "current_user"
+    cookie_user_type: "cookie_user_type",
+    cookie_token: "cookie_token"
   },
   privateRuntimeConfig: {
   },
@@ -97,7 +98,7 @@ export default {
     port: 8080,
     host: '0.0.0.0',
   },
-  // ssr: false,
+  ssr: false,
   styleResources: {
     scss: [
       'assets/scss/variables.scss',

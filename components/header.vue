@@ -9,7 +9,7 @@
       </span>
       <span class="user-panel finger">
         <span class="user-profile-image"></span>
-        <span class="user-display-name">{{ user.display_name }}</span>
+        <span class="user-display-name"></span>
       </span>
       <span class="icon-panel finger">
         <fa-icon :icon="['fas', 'bars']" size="lg" />
@@ -23,7 +23,6 @@
 
 <script>
   import menu from "~/store/menu";
-  import user from "~/store/user";
   import { mapGetters } from "vuex";
 
   export default {
@@ -34,7 +33,6 @@
     computed: {
       ...mapGetters({
         page: "page",
-        user: "user/current_user",
         get_current_menu: "menu/get_current_menu",
         menus_account: "menu/ordered_menus_account",
       }),
@@ -42,9 +40,6 @@
     created() {
       if (!this.$store.hasModule("menu")) {
         this.$store.registerModule("menu", menu);
-      }
-      if (!this.$store.hasModule("user")) {
-        this.$store.registerModule("user", user);
       }
     },
     methods: {},

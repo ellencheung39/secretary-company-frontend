@@ -2,19 +2,14 @@ export default {
   namespaced: true,
   state: () => ({
     is_loading: false,
-    current_document: {},
     document_list: [],
     limit: 20,
     count: 0,
-    offset: null,
+    offset: 0,
   }),
   mutations: {
     SET_LOADING(state, payload) {
       state.is_loading = payload;
-    },
-    SET_CURRENT_DOCUMENT(state, payload) {
-      if (!payload) return;
-      state.current_document = Object.freeze(payload);
     },
     SET_DOCUMENT_LIST_REQUEST(state, payload) {
       if (!payload) return;
@@ -34,22 +29,13 @@ export default {
     },
   },
   actions: {
-    async getCurrentDocument({ commit }, payload) {
-      let result = await this.$axios.$post(`${this.$config.baseURL}/user/company-file-list/`, payload)
-      commit('SET_CURRENT_DOCUMENT', result.data);
-    },
-    async getDefaultDocumentList({ commit, state }) {
-      if (state.offset !== null) return
-      commit('SET_DOCUMENT_LIST_REQUEST', { limit: 20, offset: 0 });
-      let result = await this.$axios.$get(`${this.$config.baseURL}/user/company-file-list/`, { params: { limit: 20, offset: 0 } })
-      commit('SET_DOCUMENT_LIST_RESPONSE', result.data);
-    },
-    async getDocumentList({ commit }, payload) {
+    async getDocumentList({ commit, state }, payload) {
+      if (!payload) payload = { limit: state.limit, offset: state.offset }
       commit('SET_DOCUMENT_LIST_REQUEST', payload);
       let result = await this.$axios.$get(`${this.$config.baseURL}/user/company-file-list/`, { params: { limit: payload.limit, offset: payload.offset } })
       commit('SET_DOCUMENT_LIST_RESPONSE', result.data);
     },
-    async saveDocument({ commit }, payload) {
+    async saveDocument(_, payload) {
       if (!payload) return
       let content = {
         username: payload.username,
@@ -62,15 +48,11 @@ export default {
         is_licensed: !!payload.is_licensed,
         licensee: payload.licensee
       }
-      let result = await payload.id ?
-        this.$axios.$patch(`${this.$config.baseURL}/user/company-file-list/${payload.id}/update/`, content) :
-        this.$axios.$post(`${this.$config.baseURL}/user/manage/create-secretary/`, content)
-      commit('SET_CURRENT_DOCUMENT', result.data);
+      await this.$axios.$post(`${this.$config.baseURL}/user/manage/create-secretary/`, content)
     },
   },
   getters: {
     is_loading: state => state.is_loading,
-    current_document: state => state.current_document,
     document_list: state => state.document_list,
     limit: state => state.limit,
     offset: state => state.offset,

@@ -23,7 +23,7 @@
       </div>
       <div v-else-if="f.display_type == 'text'" :key="`field_${f_i}`" class="default-input">
         <label>{{ f.label }}</label>
-        <div>{{ f.data }}</div>
+        <div>{{ form_data[f.data_location] }}</div>
       </div>
       <div v-else :key="`field_${f_i}`" class="default-input">
         <label :for="f.data_location">{{ f.label }}</label>

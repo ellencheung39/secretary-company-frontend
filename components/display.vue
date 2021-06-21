@@ -1,5 +1,5 @@
 <template>
-  <div class="display-layout">
+  <div v-if="data" class="display-layout">
     <template v-for="(f, f_i) in fields">
       <div v-if="f.display_type == 'multiple'" :key="`field_${f_i}`" class="multiple-field">
         <label>{{ f.label }}</label>

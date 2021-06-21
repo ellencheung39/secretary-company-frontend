@@ -64,8 +64,8 @@
       clearSelectedMenu() {
         this.$store.dispatch("menu/setSelectedMenu", null);
       },
-      logout() {
-        this.$store.dispatch("user/logout");
+      async logout() {
+        await this.$store.dispatch("user/logout");
       },
     },
   };

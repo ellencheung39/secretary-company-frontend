@@ -25,7 +25,7 @@
       <tbody>
         <tr v-for="(r, r_i) in data" :key="`list_row_${r_i}`" class="list-row">
           <td v-for="(c, c_i) in columns" :key="`list_row_item_${r_i}_${c_i}`">
-            <span v-if="c.data_location">{{ r[c.data_location] }}</span>
+            <span v-if="c.data_location">{{ getData(r, c.data_location) }}</span>
             <span v-for="(a, a_i) in c.action" v-else-if="c.action" :key="`list_row_item_action_${r_i}_${c_i}_${a_i}`">
               <nuxt-link :to="`${a.url}${r.id}`"> {{ a.label }}</nuxt-link>
               <span v-if="a_i != c.action.length - 1">/</span>
@@ -100,6 +100,10 @@
     },
     created() {},
     methods: {
+      getData(data, data_location) {
+        if (data_location.includes(".")) return this.getData(data[data_location.substring(0, data_location.indexOf("."))], data_location.substring(data_location.indexOf(".") + 1));
+        return data[data_location];
+      },
       update_search(page_no) {
         this.$emit("update_search", Object.assign(this.list_search, { page_no: page_no }));
       },

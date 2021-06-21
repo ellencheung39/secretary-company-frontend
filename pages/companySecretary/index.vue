@@ -65,6 +65,9 @@
         },
       };
     },
+    async fetch() {
+      await this.$store.dispatch("companySecretary/getCompanySecretaryList");
+    },
     computed: {
       ...mapGetters({
         company_secretary_list: "companySecretary/company_secretary_list",
@@ -78,7 +81,6 @@
       if (!this.$store.hasModule("companySecretary")) {
         this.$store.registerModule("companySecretary", companySecretary);
       }
-      this.$store.dispatch("companySecretary/getDefaultCompanySecretaryList");
     },
     methods: {
       async update_company_secretary_list(payload) {

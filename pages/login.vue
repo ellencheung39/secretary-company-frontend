@@ -15,11 +15,9 @@
     layout() {
       return "footerOnly";
     },
-    async middleware({ store, redirect }) {
+    async middleware({ store }) {
       await store.dispatch("user/getUserFromCookie");
-      if (store.state.user.current_user && store.state.user.current_user.token) {
-        return redirect("/companySecretary");
-      }
+      await store.dispatch("user/setHomePage");
     },
     data() {
       return {
